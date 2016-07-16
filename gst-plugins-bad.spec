@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.8.2
-Release  : 2
+Release  : 3
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -25,6 +25,7 @@ BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libxslt-bin
+BuildRequires : opencv-dev
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(egl)
 BuildRequires : pkgconfig(gl)
