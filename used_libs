@@ -43,4 +43,7 @@ librt.so.1
 libsndfile.so.1
 libssl.so.1.0.0
 libstdc++.so.6
+libwayland-client.so.0
+libwayland-cursor.so.0
+libwayland-egl.so.1
 libxml2.so.2

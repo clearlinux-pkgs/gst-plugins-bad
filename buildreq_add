@@ -3,3 +3,6 @@
 gobject-introspection-dev
 gobject-introspection
 opencv-dev
+wayland-dev
+mesa-dev
+gtk3-dev

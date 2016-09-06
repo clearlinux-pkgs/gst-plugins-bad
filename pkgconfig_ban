@@ -58,3 +58,4 @@ OpenEXR)
 gstreamer-video-1.0)
 librtmp)
 x265
+zvbi-0.2

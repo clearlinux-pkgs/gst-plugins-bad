@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.8.2
-Release  : 3
+Release  : 4
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -23,8 +23,10 @@ BuildRequires : gobject-introspection-dev
 BuildRequires : gtk+-dev
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
+BuildRequires : gtk3-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libxslt-bin
+BuildRequires : mesa-dev
 BuildRequires : opencv-dev
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkgconfig(egl)
@@ -33,6 +35,7 @@ BuildRequires : pkgconfig(glesv2)
 BuildRequires : pkgconfig(gmodule-export-2.0)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gstreamer-allocators-1.0)
+BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libcurl)
 BuildRequires : pkgconfig(libpng)
@@ -48,6 +51,7 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xcomposite)
 BuildRequires : valgrind
+BuildRequires : wayland-dev
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -530,6 +534,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstvideoparsersbad.so
 /usr/lib64/gstreamer-1.0/libgstvideosignal.so
 /usr/lib64/gstreamer-1.0/libgstvmnc.so
+/usr/lib64/gstreamer-1.0/libgstwaylandsink.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 

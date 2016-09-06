@@ -268,6 +268,9 @@ libgstgl-1.0.so.0:gst_gl_display_get_handle
 libgstgl-1.0.so.0:gst_gl_display_get_handle_type
 libgstgl-1.0.so.0:gst_gl_display_get_type
 libgstgl-1.0.so.0:gst_gl_display_new
+libgstgl-1.0.so.0:gst_gl_display_wayland_get_type
+libgstgl-1.0.so.0:gst_gl_display_wayland_new
+libgstgl-1.0.so.0:gst_gl_display_wayland_new_with_display
 libgstgl-1.0.so.0:gst_gl_display_x11_get_type
 libgstgl-1.0.so.0:gst_gl_display_x11_new
 libgstgl-1.0.so.0:gst_gl_display_x11_new_with_display
@@ -441,6 +444,9 @@ libgstgl-1.0.so.0:gst_gl_window_set_render_rectangle
 libgstgl-1.0.so.0:gst_gl_window_set_resize_callback
 libgstgl-1.0.so.0:gst_gl_window_set_window_handle
 libgstgl-1.0.so.0:gst_gl_window_show
+libgstgl-1.0.so.0:gst_gl_window_wayland_egl_create_window
+libgstgl-1.0.so.0:gst_gl_window_wayland_egl_get_type
+libgstgl-1.0.so.0:gst_gl_window_wayland_egl_new
 libgstgl-1.0.so.0:gst_gl_window_x11_close
 libgstgl-1.0.so.0:gst_gl_window_x11_create_window
 libgstgl-1.0.so.0:gst_gl_window_x11_draw
@@ -786,3 +792,9 @@ libgsturidownloader-1.0.so.0:gst_uri_downloader_fetch_uri_with_range
 libgsturidownloader-1.0.so.0:gst_uri_downloader_get_type
 libgsturidownloader-1.0.so.0:gst_uri_downloader_new
 libgsturidownloader-1.0.so.0:gst_uri_downloader_reset
+libgstwayland-1.0.so.0:gst_is_wayland_display_handle_need_context_message
+libgstwayland-1.0.so.0:gst_wayland_display_handle_context_get_handle
+libgstwayland-1.0.so.0:gst_wayland_display_handle_context_new
+libgstwayland-1.0.so.0:gst_wayland_video_begin_geometry_change
+libgstwayland-1.0.so.0:gst_wayland_video_end_geometry_change
+libgstwayland-1.0.so.0:gst_wayland_video_get_type
