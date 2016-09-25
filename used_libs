@@ -46,4 +46,5 @@ libstdc++.so.6
 libwayland-client.so.0
 libwayland-cursor.so.0
 libwayland-egl.so.1
+libwebp.so.6
 libxml2.so.2

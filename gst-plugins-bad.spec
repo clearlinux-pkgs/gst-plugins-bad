@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.8.2
-Release  : 5
+Release  : 6
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -40,6 +40,7 @@ BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libcurl)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : pkgconfig(librsvg-2.0)
+BuildRequires : pkgconfig(libwebp)
 BuildRequires : pkgconfig(libxml-2.0)
 BuildRequires : pkgconfig(nettle)
 BuildRequires : pkgconfig(openal)
@@ -535,6 +536,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstvideosignal.so
 /usr/lib64/gstreamer-1.0/libgstvmnc.so
 /usr/lib64/gstreamer-1.0/libgstwaylandsink.so
+/usr/lib64/gstreamer-1.0/libgstwebp.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 
