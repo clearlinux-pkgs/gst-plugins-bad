@@ -8,7 +8,6 @@ Qt5Gui
 Qt5Qml
 Qt5Quick
 bluez
-clutter-1.0
 clutter-glx-1.0
 clutter-x11-1.0
 daaladec
@@ -25,7 +24,6 @@ libbs2b
 libchromaprint
 libdc1394-2
 libde265
-libexif
 libmimic
 libmms
 libmodplug

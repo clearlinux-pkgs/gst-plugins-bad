@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.8.2
-Release  : 6
+Release  : 7
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -29,6 +29,7 @@ BuildRequires : libxslt-bin
 BuildRequires : mesa-dev
 BuildRequires : opencv-dev
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(clutter-1.0)
 BuildRequires : pkgconfig(egl)
 BuildRequires : pkgconfig(gl)
 BuildRequires : pkgconfig(glesv2)
@@ -38,6 +39,7 @@ BuildRequires : pkgconfig(gstreamer-allocators-1.0)
 BuildRequires : pkgconfig(gstreamer-video-1.0)
 BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libcurl)
+BuildRequires : pkgconfig(libexif)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : pkgconfig(librsvg-2.0)
 BuildRequires : pkgconfig(libwebp)
