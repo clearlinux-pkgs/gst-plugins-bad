@@ -10,6 +10,7 @@ libcairo.so.2
 libcrypto.so.1.0.0
 libcurl.so.4
 libdl.so.2
+libdrm.so.2
 libgcc_s.so.1
 libgdk-3.so.0
 libgdk_pixbuf-2.0.so.0
@@ -31,6 +32,7 @@ libgsttag-1.0.so.0
 libgstvideo-1.0.so.0
 libgtk-3.so.0
 libjpeg.so.62
+libkms.so.1
 libm.so.6
 libnettle.so.6
 libopenal.so.1

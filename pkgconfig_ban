@@ -57,3 +57,13 @@ librtmp)
 x265
 zvbi-0.2
 lilv-0
+pkgconfig(gstreamer-audio-[$GST_API_VERSION
+pkgconfig(gstreamer-pbutils-[$GST_API_VERSION
+gstreamer-video-[$GST_API_VERSION
+webrtc-audio-processing
+gstreamer-audio-[$GST_API_VERSION
+gstreamer-pbutils-[$GST_API_VERSION
+fdk-aac
+cuda-7.5
+cudart-7.5
+

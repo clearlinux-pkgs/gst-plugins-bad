@@ -1,2 +1,11 @@
 # This file contains the output files that need %exclude. Full path
 # names, one per line.
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideoparser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstjpegparser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvp8rangedecoder.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gsth264parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvc1parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvp8parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gsth265parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideometa.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpeg4parser.h
