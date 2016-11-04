@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.8.2
-Release  : 7
+Release  : 8
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.2.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -131,10 +131,6 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/gir-1.0/GstGL-1.0.gir
-/usr/share/gir-1.0/GstInsertBin-1.0.gir
-/usr/share/gir-1.0/GstMpegts-1.0.gir
-/usr/share/gir-1.0/GstPlayer-1.0.gir
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -237,6 +233,7 @@ rm -rf %{buildroot}
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/gstreamer-1.0/include/gst/gl/gstglconfig.h
 /usr/lib64/pkgconfig/*.pc
+/usr/share/gir-1.0/*.gir
 
 %files doc
 %defattr(-,root,root,-)
