@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.10.0
-Release  : 9
+Release  : 10
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.0.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.0.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -14,9 +14,12 @@ Requires: gst-plugins-bad-lib
 Requires: gst-plugins-bad-data
 Requires: gst-plugins-bad-doc
 Requires: gst-plugins-bad-locales
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : bzip2-dev
 BuildRequires : docbook-xml
 BuildRequires : gettext
+BuildRequires : gettext-bin
 BuildRequires : glu-dev
 BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
@@ -25,10 +28,14 @@ BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : gtk3-dev
 BuildRequires : libjpeg-turbo-dev
+BuildRequires : libtool
+BuildRequires : libtool-dev
 BuildRequires : libxslt-bin
+BuildRequires : m4
 BuildRequires : mesa-dev
 BuildRequires : opencv-dev
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(clutter-1.0)
 BuildRequires : pkgconfig(egl)
 BuildRequires : pkgconfig(gl)
@@ -54,6 +61,7 @@ BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xcomposite)
 BuildRequires : valgrind
 BuildRequires : wayland-dev
+Patch1: 0001-disable-gst-segementation-plugin.patch
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -107,10 +115,11 @@ locales components for the gst-plugins-bad package.
 
 %prep
 %setup -q -n gst-plugins-bad-1.10.0
+%patch1 -p1
 
 %build
 export LANG=C
-%configure --disable-static --disable-opencv
+%reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
 %check
@@ -130,6 +139,8 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -567,6 +578,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
+/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
