@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.10.1
-Release  : 11
+Release  : 12
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.1.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.1.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
