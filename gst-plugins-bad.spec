@@ -4,7 +4,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.10.1
-Release  : 12
+Release  : 13
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.1.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.1.tar.xz
 Summary  : GStreamer streaming media framework "bad" plug-ins
@@ -119,6 +119,7 @@ locales components for the gst-plugins-bad package.
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=`date +%s -r configure.ac`
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -139,8 +140,6 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -239,13 +238,33 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader_debug.h
 /usr/include/gstreamer-1.0/gst/video/gstvideoaggregator.h
 /usr/include/gstreamer-1.0/gst/video/gstvideoaggregatorpad.h
-/usr/lib64/*.so
 /usr/lib64/girepository-1.0/GstGL-1.0.typelib
 /usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/gstreamer-1.0/include/gst/gl/gstglconfig.h
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libgstadaptivedemux-1.0.so
+/usr/lib64/libgstbadaudio-1.0.so
+/usr/lib64/libgstbadbase-1.0.so
+/usr/lib64/libgstbadvideo-1.0.so
+/usr/lib64/libgstbasecamerabinsrc-1.0.so
+/usr/lib64/libgstcodecparsers-1.0.so
+/usr/lib64/libgstgl-1.0.so
+/usr/lib64/libgstinsertbin-1.0.so
+/usr/lib64/libgstmpegts-1.0.so
+/usr/lib64/libgstphotography-1.0.so
+/usr/lib64/libgstplayer-1.0.so
+/usr/lib64/libgsturidownloader-1.0.so
+/usr/lib64/libgstwayland-1.0.so
+/usr/lib64/pkgconfig/gstreamer-bad-audio-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-bad-base-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-bad-video-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-codecparsers-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-gl-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-insertbin-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-mpegts-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-player-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
 /usr/share/gir-1.0/*.gir
 
 %files doc
@@ -525,7 +544,6 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
 /usr/lib64/gstreamer-1.0/libgstaccurip.so
 /usr/lib64/gstreamer-1.0/libgstadpcmdec.so
 /usr/lib64/gstreamer-1.0/libgstadpcmenc.so
@@ -575,7 +593,6 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
-/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
@@ -605,7 +622,33 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstwebp.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
+/usr/lib64/libgstadaptivedemux-1.0.so.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1001.0
+/usr/lib64/libgstbadaudio-1.0.so.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1001.0
+/usr/lib64/libgstbadbase-1.0.so.0
+/usr/lib64/libgstbadbase-1.0.so.0.1001.0
+/usr/lib64/libgstbadvideo-1.0.so.0
+/usr/lib64/libgstbadvideo-1.0.so.0.1001.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1001.0
+/usr/lib64/libgstcodecparsers-1.0.so.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1001.0
+/usr/lib64/libgstgl-1.0.so.0
+/usr/lib64/libgstgl-1.0.so.0.1001.0
+/usr/lib64/libgstinsertbin-1.0.so.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1001.0
+/usr/lib64/libgstmpegts-1.0.so.0
+/usr/lib64/libgstmpegts-1.0.so.0.1001.0
+/usr/lib64/libgstphotography-1.0.so.0
+/usr/lib64/libgstphotography-1.0.so.0.1001.0
+/usr/lib64/libgstplayer-1.0.so.0
+/usr/lib64/libgstplayer-1.0.so.0.1001.0
+/usr/lib64/libgsturidownloader-1.0.so.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1001.0
+/usr/lib64/libgstwayland-1.0.so.0
+/usr/lib64/libgstwayland-1.0.so.0.1001.0
 
-%files locales -f gst-plugins-bad-1.0.lang 
+%files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
 
