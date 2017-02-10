@@ -36,6 +36,11 @@ libkms.so.1
 libm.so.6
 libnettle.so.6
 libopenal.so.1
+libopencv_calib3d.so.3.2
+libopencv_core.so.3.2
+libopencv_imgcodecs.so.3.2
+libopencv_imgproc.so.3.2
+libopencv_objdetect.so.3.2
 libpango-1.0.so.0
 libpangocairo-1.0.so.0
 libpng16.so.16

@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.10.3
-Release  : 15
+Release  : 16
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz.asc
@@ -65,6 +65,7 @@ BuildRequires : pkgconfig(xcomposite)
 BuildRequires : valgrind
 BuildRequires : wayland-dev
 Patch1: 0001-disable-gst-segementation-plugin.patch
+Patch2: allow-compilation-opencv-version.patch
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -119,10 +120,11 @@ locales components for the gst-plugins-bad package.
 %prep
 %setup -q -n gst-plugins-bad-1.10.3
 %patch1 -p1
+%patch2 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1486058750
+export SOURCE_DATE_EPOCH=1486749430
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -134,7 +136,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1486058750
+export SOURCE_DATE_EPOCH=1486749430
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -144,6 +146,8 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -597,6 +601,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
+/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
