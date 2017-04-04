@@ -6,15 +6,15 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.10.3
-Release  : 16
+Release  : 17
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz.asc
 Summary  : GStreamer streaming media framework "bad" plug-ins
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0 LGPL-2.1+
-Requires: gst-plugins-bad-lib
 Requires: gst-plugins-bad-data
+Requires: gst-plugins-bad-lib
 Requires: gst-plugins-bad-doc
 Requires: gst-plugins-bad-locales
 BuildRequires : automake
@@ -124,7 +124,7 @@ locales components for the gst-plugins-bad package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1486749430
+export SOURCE_DATE_EPOCH=1491318839
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -136,7 +136,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1486749430
+export SOURCE_DATE_EPOCH=1491318839
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -146,6 +146,11 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/GstGL-1.0.typelib
+/usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
+/usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
+/usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
+/usr/share/gir-1.0/*.gir
 /usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
 /usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
@@ -246,10 +251,6 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader_debug.h
 /usr/include/gstreamer-1.0/gst/video/gstvideoaggregator.h
 /usr/include/gstreamer-1.0/gst/video/gstvideoaggregatorpad.h
-/usr/lib64/girepository-1.0/GstGL-1.0.typelib
-/usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
-/usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
-/usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/gstreamer-1.0/include/gst/gl/gstglconfig.h
 /usr/lib64/libgstadaptivedemux-1.0.so
 /usr/lib64/libgstbadaudio-1.0.so
@@ -273,7 +274,6 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/gstreamer-mpegts-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-player-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
-/usr/share/gir-1.0/*.gir
 
 %files doc
 %defattr(-,root,root,-)
