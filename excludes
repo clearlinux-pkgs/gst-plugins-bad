@@ -9,3 +9,4 @@
 /usr/include/gstreamer-1.0/gst/codecparsers/gsth265parser.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideometa.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstmpeg4parser.h
+/usr/lib64/gstreamer-1.0/libgstrawparse.so
