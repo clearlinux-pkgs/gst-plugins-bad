@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x0668CC1486C2D7B5 (slomo@debian.org)
 #
 Name     : gst-plugins-bad
-Version  : 1.10.3
-Release  : 18
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.3.tar.xz.asc
-Summary  : GStreamer streaming media framework "bad" plug-ins
+Version  : 1.12.0
+Release  : 19
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz.asc
+Summary  : GStreamer Wayland support
 Group    : Development/Tools
-License  : BSD-3-Clause GPL-2.0 LGPL-2.0 LGPL-2.1+
+License  : BSD-3-Clause GPL-2.0 LGPL-2.0
 Requires: gst-plugins-bad-data
 Requires: gst-plugins-bad-lib
 Requires: gst-plugins-bad-doc
@@ -21,7 +21,6 @@ BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : bzip2-dev
 BuildRequires : docbook-xml
-BuildRequires : gettext
 BuildRequires : gettext-bin
 BuildRequires : glu-dev
 BuildRequires : gobject-introspection
@@ -33,11 +32,11 @@ BuildRequires : gtk3-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : libtool
 BuildRequires : libtool-dev
+BuildRequires : libusb-dev
 BuildRequires : libxslt-bin
 BuildRequires : m4
 BuildRequires : mesa-dev
 BuildRequires : opencv-dev
-BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(clutter-1.0)
 BuildRequires : pkgconfig(egl)
@@ -51,6 +50,7 @@ BuildRequires : pkgconfig(libcurl)
 BuildRequires : pkgconfig(libexif)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : pkgconfig(librsvg-2.0)
+BuildRequires : pkgconfig(libva-drm)
 BuildRequires : pkgconfig(libwebp)
 BuildRequires : pkgconfig(libxml-2.0)
 BuildRequires : pkgconfig(nettle)
@@ -60,18 +60,18 @@ BuildRequires : pkgconfig(openssl)
 BuildRequires : pkgconfig(sdl)
 BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(x11)
+BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xcomposite)
 BuildRequires : valgrind
 BuildRequires : wayland-dev
 Patch1: 0001-disable-gst-segementation-plugin.patch
-Patch2: allow-compilation-opencv-version.patch
 
 %description
-GStreamer is a streaming media framework, based on graphs of elements which
-operate on media data.
-
-This package containes the plugins which didn't fit into free or extra
+GStreamer 1.11.x development series
+WHAT IT IS
+----------
+This is GStreamer, a framework for streaming media.
 
 %package data
 Summary: data components for the gst-plugins-bad package.
@@ -118,13 +118,15 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.10.3
+%setup -q -n gst-plugins-bad-1.12.0
 %patch1 -p1
-%patch2 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1491318839
+export SOURCE_DATE_EPOCH=1493912580
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -132,11 +134,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1491318839
+export SOURCE_DATE_EPOCH=1493912580
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -146,13 +148,12 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/GstBadAllocators-1.0.typelib
 /usr/lib64/girepository-1.0/GstGL-1.0.typelib
 /usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/share/gir-1.0/*.gir
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -166,6 +167,8 @@ rm -rf %{buildroot}
 %exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvc1parser.h
 %exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8parser.h
 %exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8rangedecoder.h
+/usr/include/gstreamer-1.0/gst/allocators/badallocators.h
+/usr/include/gstreamer-1.0/gst/allocators/gstphysmemory.h
 /usr/include/gstreamer-1.0/gst/audio/gstaudioaggregator.h
 /usr/include/gstreamer-1.0/gst/base/gstaggregator.h
 /usr/include/gstreamer-1.0/gst/basecamerabinsrc/gstbasecamerasrc.h
@@ -175,7 +178,6 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/codecparsers/gstvp9parser.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gstegl.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gsteglimage.h
-/usr/include/gstreamer-1.0/gst/gl/egl/gstglcontext_egl.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gstgldisplay_egl.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gstglmemoryegl.h
 /usr/include/gstreamer-1.0/gst/gl/gl.h
@@ -204,7 +206,6 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/gl/gstglbufferpool.h
 /usr/include/gstreamer-1.0/gst/gl/gstglcolorconvert.h
 /usr/include/gstreamer-1.0/gst/gl/gstglcontext.h
-/usr/include/gstreamer-1.0/gst/gl/gstglcontrolbindingproxy.h
 /usr/include/gstreamer-1.0/gst/gl/gstgldebug.h
 /usr/include/gstreamer-1.0/gst/gl/gstgldisplay.h
 /usr/include/gstreamer-1.0/gst/gl/gstglfeature.h
@@ -225,6 +226,7 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/gl/gstglutils.h
 /usr/include/gstreamer-1.0/gst/gl/gstglviewconvert.h
 /usr/include/gstreamer-1.0/gst/gl/gstglwindow.h
+/usr/include/gstreamer-1.0/gst/gl/wayland/gstgldisplay_wayland.h
 /usr/include/gstreamer-1.0/gst/gl/x11/gstgldisplay_x11.h
 /usr/include/gstreamer-1.0/gst/insertbin/gstinsertbin.h
 /usr/include/gstreamer-1.0/gst/interfaces/photography-enumtypes.h
@@ -253,6 +255,7 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/video/gstvideoaggregatorpad.h
 /usr/lib64/gstreamer-1.0/include/gst/gl/gstglconfig.h
 /usr/lib64/libgstadaptivedemux-1.0.so
+/usr/lib64/libgstbadallocators-1.0.so
 /usr/lib64/libgstbadaudio-1.0.so
 /usr/lib64/libgstbadbase-1.0.so
 /usr/lib64/libgstbadvideo-1.0.so
@@ -265,6 +268,7 @@ rm -rf %{buildroot}
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
 /usr/lib64/libgstwayland-1.0.so
+/usr/lib64/pkgconfig/gstreamer-bad-allocators-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-bad-audio-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-bad-base-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-bad-video-1.0.pc
@@ -277,6 +281,8 @@ rm -rf %{buildroot}
 
 %files doc
 %defattr(-,root,root,-)
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstAggregator.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstAggregatorPad.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLBaseFilter.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLBufferPool.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLColorConvert.html
@@ -289,6 +295,12 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLUpload.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLViewConvert.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstGLWindow.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayer.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerMediaInfo.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerVideoOverlayVideoRenderer.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerVisualization.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstVideoAggregator.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstVideoAggregatorPad.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/annotation-glossary.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/api-index-deprecated.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/api-index-full.html
@@ -304,37 +316,29 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-Base-MPEG-TS-sections.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-DVB-variants-of-MPEG-TS-descriptors.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-DVB-variants-of-MPEG-TS-sections.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstAggregator.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstAggregatorPad.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstEGLImage.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLAPI.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLBuffer.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLDisplayWayland.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLDisplayX11.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLMemory.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLMemoryPBO.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLOverlayCompositor.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLQuery.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLRenderbuffer.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLSL.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGLSyncMeta.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstGlBaseMemory.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstInsertbin.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstPhotography.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstVideoAggregator.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstVideoAggregatorPad.html
+/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstPlayerGMainContextSignalDispatcher.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-ISDB-variants-of-MPEG-TS-descriptors.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-Mpeg-ts-helper-library.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-OpenGL-Formats.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-OpenGL-Miscellaneous-Utilities.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-OpenGL-debugging.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstglbasememory.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstglmemoryegl.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstglmemorypbo.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstmpegvideometa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstplayer-gmaincontextsignaldispatcher.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstplayer-mediainfo.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstplayer-videooverlayvideorenderer.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstplayer-visualization.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstplayer.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-h264parser.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-jpegparser.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-mpeg4parser.html
@@ -359,6 +363,7 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/ch01.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/ch02.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-1.0.devhelp2
+/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-IQA.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-accurip.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-aiffmux.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-aiffparse.html
@@ -381,7 +386,6 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvlaplace.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvsmooth.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvsobel.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dataurisrc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-diffuse.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dilate.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dodge.html
@@ -475,7 +479,6 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-camerabin.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-coloreffects.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-curl.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dataurisrc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-debugutilsbad.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dtsdec.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dvb.html
@@ -487,7 +490,6 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-geometrictransform.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gsm.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-jpegformat.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mimic.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mms.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-modplug.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpeg2enc.html
@@ -503,10 +505,11 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rawparse.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rfbsrc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rtmp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-sdp.html
+/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-sdpelem.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-shm.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-soundtouch.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-speed.html
+/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ttmlsubs.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-voaacenc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-voamrwbenc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-webrtcdsp.html
@@ -528,6 +531,8 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-stretch.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-synaescope.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-templatematch.html
+/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ttmlparse.html
+/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ttmlrender.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tunnel.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-twirl.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-unalignedaudioparse.html
@@ -557,24 +562,26 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstadpcmenc.so
 /usr/lib64/gstreamer-1.0/libgstaiff.so
 /usr/lib64/gstreamer-1.0/libgstasfmux.so
+/usr/lib64/gstreamer-1.0/libgstaudiobuffersplit.so
 /usr/lib64/gstreamer-1.0/libgstaudiofxbad.so
 /usr/lib64/gstreamer-1.0/libgstaudiomixer.so
+/usr/lib64/gstreamer-1.0/libgstaudiomixmatrix.so
 /usr/lib64/gstreamer-1.0/libgstaudiovisualizers.so
 /usr/lib64/gstreamer-1.0/libgstautoconvert.so
 /usr/lib64/gstreamer-1.0/libgstbayer.so
 /usr/lib64/gstreamer-1.0/libgstbz2.so
-/usr/lib64/gstreamer-1.0/libgstcamerabin2.so
+/usr/lib64/gstreamer-1.0/libgstcamerabin.so
 /usr/lib64/gstreamer-1.0/libgstcoloreffects.so
 /usr/lib64/gstreamer-1.0/libgstcompositor.so
 /usr/lib64/gstreamer-1.0/libgstcurl.so
 /usr/lib64/gstreamer-1.0/libgstdashdemux.so
-/usr/lib64/gstreamer-1.0/libgstdataurisrc.so
 /usr/lib64/gstreamer-1.0/libgstdebugutilsbad.so
 /usr/lib64/gstreamer-1.0/libgstdecklink.so
 /usr/lib64/gstreamer-1.0/libgstdtls.so
 /usr/lib64/gstreamer-1.0/libgstdvb.so
 /usr/lib64/gstreamer-1.0/libgstdvbsuboverlay.so
 /usr/lib64/gstreamer-1.0/libgstdvdspu.so
+/usr/lib64/gstreamer-1.0/libgstfaceoverlay.so
 /usr/lib64/gstreamer-1.0/libgstfbdevsink.so
 /usr/lib64/gstreamer-1.0/libgstfestival.so
 /usr/lib64/gstreamer-1.0/libgstfieldanalysis.so
@@ -583,7 +590,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstgaudieffects.so
 /usr/lib64/gstreamer-1.0/libgstgdp.so
 /usr/lib64/gstreamer-1.0/libgstgeometrictransform.so
-/usr/lib64/gstreamer-1.0/libgstgtksink.so
+/usr/lib64/gstreamer-1.0/libgstgtk.so
 /usr/lib64/gstreamer-1.0/libgsthls.so
 /usr/lib64/gstreamer-1.0/libgstid3tag.so
 /usr/lib64/gstreamer-1.0/libgstinter.so
@@ -592,7 +599,8 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstivtc.so
 /usr/lib64/gstreamer-1.0/libgstjp2kdecimator.so
 /usr/lib64/gstreamer-1.0/libgstjpegformat.so
-/usr/lib64/gstreamer-1.0/libgstkmssink.so
+/usr/lib64/gstreamer-1.0/libgstkms.so
+/usr/lib64/gstreamer-1.0/libgstlegacyrawparse.so
 /usr/lib64/gstreamer-1.0/libgstmidi.so
 /usr/lib64/gstreamer-1.0/libgstmpegpsdemux.so
 /usr/lib64/gstreamer-1.0/libgstmpegpsmux.so
@@ -601,11 +609,9 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
-/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
-/usr/lib64/gstreamer-1.0/libgstrawparse.so
 /usr/lib64/gstreamer-1.0/libgstremovesilence.so
 /usr/lib64/gstreamer-1.0/libgstrfbsrc.so
 /usr/lib64/gstreamer-1.0/libgstrsvg.so
@@ -621,6 +627,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgststereo.so
 /usr/lib64/gstreamer-1.0/libgstsubenc.so
 /usr/lib64/gstreamer-1.0/libgsttimecode.so
+/usr/lib64/gstreamer-1.0/libgstttmlsubs.so
 /usr/lib64/gstreamer-1.0/libgstvcdsrc.so
 /usr/lib64/gstreamer-1.0/libgstvideofiltersbad.so
 /usr/lib64/gstreamer-1.0/libgstvideoframe_audiolevel.so
@@ -632,31 +639,33 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1003.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1200.0
+/usr/lib64/libgstbadallocators-1.0.so.0
+/usr/lib64/libgstbadallocators-1.0.so.0.1200.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1003.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1200.0
 /usr/lib64/libgstbadbase-1.0.so.0
-/usr/lib64/libgstbadbase-1.0.so.0.1003.0
+/usr/lib64/libgstbadbase-1.0.so.0.1200.0
 /usr/lib64/libgstbadvideo-1.0.so.0
-/usr/lib64/libgstbadvideo-1.0.so.0.1003.0
+/usr/lib64/libgstbadvideo-1.0.so.0.1200.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1003.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1200.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1003.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1200.0
 /usr/lib64/libgstgl-1.0.so.0
-/usr/lib64/libgstgl-1.0.so.0.1003.0
+/usr/lib64/libgstgl-1.0.so.0.1200.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1003.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1200.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1003.0
+/usr/lib64/libgstmpegts-1.0.so.0.1200.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1003.0
+/usr/lib64/libgstphotography-1.0.so.0.1200.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1003.0
+/usr/lib64/libgstplayer-1.0.so.0.1200.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1003.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1200.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1003.0
+/usr/lib64/libgstwayland-1.0.so.0.1200.0
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)

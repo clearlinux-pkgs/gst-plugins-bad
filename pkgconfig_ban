@@ -66,4 +66,6 @@ gstreamer-pbutils-[$GST_API_VERSION
 fdk-aac
 cuda-7.5
 cudart-7.5
-
+cuda-8.0
+cudart-8.0
+dssim

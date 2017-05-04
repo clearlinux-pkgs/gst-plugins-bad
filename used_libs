@@ -1,6 +1,7 @@
 libEGL.so.1
 libGL.so.1
 libGLESv2.so.2
+libX11-xcb.so.1
 libX11.so.6
 libatk-1.0.so.0
 libbz2.so.0
@@ -22,6 +23,7 @@ libgstallocators-1.0.so.0
 libgstapp-1.0.so.0
 libgstaudio-1.0.so.0
 libgstbase-1.0.so.0
+libgstcontroller-1.0.so.0
 libgstfft-1.0.so.0
 libgstnet-1.0.so.0
 libgstpbutils-1.0.so.0
@@ -32,15 +34,9 @@ libgsttag-1.0.so.0
 libgstvideo-1.0.so.0
 libgtk-3.so.0
 libjpeg.so.62
-libkms.so.1
 libm.so.6
 libnettle.so.6
 libopenal.so.1
-libopencv_calib3d.so.3.2
-libopencv_core.so.3.2
-libopencv_imgcodecs.so.3.2
-libopencv_imgproc.so.3.2
-libopencv_objdetect.so.3.2
 libpango-1.0.so.0
 libpangocairo-1.0.so.0
 libpng16.so.16
@@ -54,4 +50,5 @@ libwayland-client.so.0
 libwayland-cursor.so.0
 libwayland-egl.so.1
 libwebp.so.6
+libxcb.so.1
 libxml2.so.2
