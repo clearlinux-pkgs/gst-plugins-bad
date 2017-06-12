@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.12.0
-Release  : 21
+Release  : 22
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.0.tar.xz.asc
@@ -66,6 +66,7 @@ BuildRequires : pkgconfig(xcomposite)
 BuildRequires : valgrind
 BuildRequires : wayland-dev
 Patch1: 0001-disable-gst-segementation-plugin.patch
+Patch2: 0002-Disable-request-by-bgsegm.hpp.patch
 
 %description
 GStreamer 1.11.x development series
@@ -120,13 +121,14 @@ locales components for the gst-plugins-bad package.
 %prep
 %setup -q -n gst-plugins-bad-1.12.0
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1493913637
+export SOURCE_DATE_EPOCH=1497296387
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -138,7 +140,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1493913637
+export SOURCE_DATE_EPOCH=1497296387
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -154,6 +156,8 @@ rm -rf %{buildroot}
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/share/gir-1.0/*.gir
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -239,6 +243,8 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtsdescriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtssection.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts.h
+/usr/include/gstreamer-1.0/gst/opencv/gstopencvutils.h
+/usr/include/gstreamer-1.0/gst/opencv/gstopencvvideofilter.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-g-main-context-signal-dispatcher.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-media-info.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-signal-dispatcher.h
@@ -264,6 +270,7 @@ rm -rf %{buildroot}
 /usr/lib64/libgstgl-1.0.so
 /usr/lib64/libgstinsertbin-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
+/usr/lib64/libgstopencv-1.0.so
 /usr/lib64/libgstphotography-1.0.so
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
@@ -609,6 +616,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
+/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
@@ -658,6 +666,8 @@ rm -rf %{buildroot}
 /usr/lib64/libgstinsertbin-1.0.so.0.1200.0
 /usr/lib64/libgstmpegts-1.0.so.0
 /usr/lib64/libgstmpegts-1.0.so.0.1200.0
+/usr/lib64/libgstopencv-1.0.so.0
+/usr/lib64/libgstopencv-1.0.so.0.1200.0
 /usr/lib64/libgstphotography-1.0.so.0
 /usr/lib64/libgstphotography-1.0.so.0.1200.0
 /usr/lib64/libgstplayer-1.0.so.0
