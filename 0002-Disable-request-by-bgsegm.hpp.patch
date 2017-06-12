@@ -1,0 +1,42 @@
+From 9dd86cff14e7e3a24f1d0b00981c10e2c178325f Mon Sep 17 00:00:00 2001
+From: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+Date: Mon, 12 Jun 2017 13:46:15 -0500
+Subject: [PATCH] Disable request by bgsegm.hpp
+
+The OpenCV plugins cannot be built due to
+gst-bad-plugins asks for "bgsegm.hpp", that
+file is part of "opencv_contrib" project, it
+is not included in Clear Linux.
+
+https://github.com/opencv/opencv_contrib/tree/master/modules/bgsegm/include/opencv2
+
+The idea of "opencv_contrib" is new modules should
+be developed separately, and published in the opencv_contrib
+repository at first. Later, when the module matures and
+gains popularity, it is moved to the central OpenCV
+repository.
+
+Signed-off-by: Mario Alfredo Carrillo Arevalo <mario.alfredo.c.arevalo@intel.com>
+---
+ configure.ac | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index b0a5b2a..ecc2927 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2760,10 +2760,7 @@ AG_GST_CHECK_FEATURE(OPENCV, [opencv plugins], opencv, [
+                       opencv2/video/background_segm.hpp], [], [something_not_found=yes])
+ 
+     dnl Only required for OpenCV >= 3, we have compat code for older versions
+-    PKG_CHECK_MODULES(OPENCV_3, opencv >= 3, [
+-      dnl check opencv_contrib headers (not always present in opencv distributions)
+-      AC_CHECK_HEADERS([opencv2/bgsegm.hpp], [], [something_not_found=yes])],
+-      [NOT_A_PROBLEM=yes])
++    PKG_CHECK_MODULES(OPENCV_3, opencv >= 3, [NOT_A_PROBLEM=yes])
+ 
+     CPPFLAGS=$OLD_CPPFLAGS
+     AC_LANG([C])
+-- 
+2.10.0.372.g6fe1b14
+

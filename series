@@ -1,1 +1,2 @@
 0001-disable-gst-segementation-plugin.patch
+0002-Disable-request-by-bgsegm.hpp.patch
