@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.12.1
-Release  : 26
+Release  : 27
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz.asc
@@ -36,6 +36,7 @@ BuildRequires : libusb-dev
 BuildRequires : libxslt-bin
 BuildRequires : m4
 BuildRequires : mesa-dev
+BuildRequires : mpg123-dev
 BuildRequires : opencv-dev
 BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(clutter-1.0)
@@ -128,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1497980766
+export SOURCE_DATE_EPOCH=1498144623
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -140,7 +141,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1497980766
+export SOURCE_DATE_EPOCH=1498144623
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
