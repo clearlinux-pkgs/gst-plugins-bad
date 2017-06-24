@@ -7,3 +7,6 @@ wayland-dev
 mesa-dev
 gtk3-dev
 mpg123-dev
+bluez-dev
+sbc-dev
+vulkan-sdk-dev

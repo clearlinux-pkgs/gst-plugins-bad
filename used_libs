@@ -59,6 +59,7 @@ libpng16.so.16
 libpthread.so.0
 librsvg-2.so.2
 librt.so.1
+libsbc.so.1
 libsndfile.so.1
 libssl.so.1.0.0
 libstdc++.so.6

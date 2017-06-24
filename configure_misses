@@ -38,7 +38,6 @@ Configure miss: Winks LDFLAGS
 Configure miss: SystemConfiguration/SystemConfiguration.h usability
 Configure miss: SystemConfiguration/SystemConfiguration.h presence
 Configure miss: SystemConfiguration/SystemConfiguration.h
-Configure miss: BLUEZ5
 Configure miss: SLES/OpenSLES.h usability
 Configure miss: SLES/OpenSLES.h presence
 Configure miss: SLES/OpenSLES.h
@@ -143,7 +142,6 @@ Configure miss: vdpau/vdpau.h
 Configure miss: vdpau/vdpau_x11.h usability
 Configure miss: vdpau/vdpau_x11.h presence
 Configure miss: vdpau/vdpau_x11.h
-Configure miss: SBC
 Configure miss: SCHRO
 Configure miss: ZBAR
 Configure miss: RTMP

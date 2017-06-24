@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.12.1
-Release  : 27
+Release  : 28
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz.asc
@@ -19,6 +19,7 @@ Requires: gst-plugins-bad-doc
 Requires: gst-plugins-bad-locales
 BuildRequires : automake
 BuildRequires : automake-dev
+BuildRequires : bluez-dev
 BuildRequires : bzip2-dev
 BuildRequires : docbook-xml
 BuildRequires : gettext-bin
@@ -64,7 +65,9 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xcomposite)
+BuildRequires : sbc-dev
 BuildRequires : valgrind
+BuildRequires : vulkan-sdk-dev
 BuildRequires : wayland-dev
 Patch1: 0001-disable-gst-segementation-plugin.patch
 Patch2: 0002-Disable-request-by-bgsegm.hpp.patch
@@ -129,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1498144623
+export SOURCE_DATE_EPOCH=1498320368
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -141,7 +144,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1498144623
+export SOURCE_DATE_EPOCH=1498320368
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -163,15 +166,6 @@ rm -rf %{buildroot}
 
 %files dev
 %defattr(-,root,root,-)
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gsth264parser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gsth265parser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstjpegparser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstmpeg4parser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideometa.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideoparser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvc1parser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8parser.h
-%exclude /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8rangedecoder.h
 /usr/include/gstreamer-1.0/gst/allocators/badallocators.h
 /usr/include/gstreamer-1.0/gst/allocators/gstphysmemory.h
 /usr/include/gstreamer-1.0/gst/audio/gstaudioaggregator.h
@@ -179,7 +173,16 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/basecamerabinsrc/gstbasecamerasrc.h
 /usr/include/gstreamer-1.0/gst/basecamerabinsrc/gstcamerabin-enum.h
 /usr/include/gstreamer-1.0/gst/basecamerabinsrc/gstcamerabinpreview.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gsth264parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gsth265parser.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstjpeg2000sampling.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstjpegparser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpeg4parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideometa.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstmpegvideoparser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvc1parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvp8parser.h
+/usr/include/gstreamer-1.0/gst/codecparsers/gstvp8rangedecoder.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstvp9parser.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gstegl.h
 /usr/include/gstreamer-1.0/gst/gl/egl/gsteglimage.h
@@ -577,6 +580,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstaudiovisualizers.so
 /usr/lib64/gstreamer-1.0/libgstautoconvert.so
 /usr/lib64/gstreamer-1.0/libgstbayer.so
+/usr/lib64/gstreamer-1.0/libgstbluez.so
 /usr/lib64/gstreamer-1.0/libgstbz2.so
 /usr/lib64/gstreamer-1.0/libgstcamerabin.so
 /usr/lib64/gstreamer-1.0/libgstcoloreffects.so
@@ -625,6 +629,7 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstrfbsrc.so
 /usr/lib64/gstreamer-1.0/libgstrsvg.so
 /usr/lib64/gstreamer-1.0/libgstrtponvif.so
+/usr/lib64/gstreamer-1.0/libgstsbc.so
 /usr/lib64/gstreamer-1.0/libgstsdpelem.so
 /usr/lib64/gstreamer-1.0/libgstsegmentclip.so
 /usr/lib64/gstreamer-1.0/libgstshm.so
