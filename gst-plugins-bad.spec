@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x0668CC1486C2D7B5 (slomo@debian.org)
 #
 Name     : gst-plugins-bad
-Version  : 1.12.1
-Release  : 29
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz.asc
+Version  : 1.12.2
+Release  : 30
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz.asc
 Summary  : GStreamer Wayland support
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
@@ -123,7 +123,7 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.12.1
+%setup -q -n gst-plugins-bad-1.12.2
 %patch1 -p1
 %patch2 -p1
 
@@ -132,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1498321086
+export SOURCE_DATE_EPOCH=1500045580
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -151,7 +151,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1498321086
+export SOURCE_DATE_EPOCH=1500045580
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -660,35 +660,35 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1201.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1202.0
 /usr/lib64/libgstbadallocators-1.0.so.0
-/usr/lib64/libgstbadallocators-1.0.so.0.1201.0
+/usr/lib64/libgstbadallocators-1.0.so.0.1202.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1201.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1202.0
 /usr/lib64/libgstbadbase-1.0.so.0
-/usr/lib64/libgstbadbase-1.0.so.0.1201.0
+/usr/lib64/libgstbadbase-1.0.so.0.1202.0
 /usr/lib64/libgstbadvideo-1.0.so.0
-/usr/lib64/libgstbadvideo-1.0.so.0.1201.0
+/usr/lib64/libgstbadvideo-1.0.so.0.1202.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1201.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1202.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1201.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1202.0
 /usr/lib64/libgstgl-1.0.so.0
-/usr/lib64/libgstgl-1.0.so.0.1201.0
+/usr/lib64/libgstgl-1.0.so.0.1202.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1201.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1202.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1201.0
+/usr/lib64/libgstmpegts-1.0.so.0.1202.0
 /usr/lib64/libgstopencv-1.0.so.0
-/usr/lib64/libgstopencv-1.0.so.0.1201.0
+/usr/lib64/libgstopencv-1.0.so.0.1202.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1201.0
+/usr/lib64/libgstphotography-1.0.so.0.1202.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1201.0
+/usr/lib64/libgstplayer-1.0.so.0.1202.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1201.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1202.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1201.0
+/usr/lib64/libgstwayland-1.0.so.0.1202.0
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
