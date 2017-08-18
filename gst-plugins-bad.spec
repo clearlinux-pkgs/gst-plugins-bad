@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.12.2
-Release  : 30
+Release  : 31
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.2.tar.xz.asc
@@ -40,6 +40,7 @@ BuildRequires : mesa-dev
 BuildRequires : mpg123-dev
 BuildRequires : opencv-dev
 BuildRequires : pkg-config-dev
+BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(clutter-1.0)
 BuildRequires : pkgconfig(egl)
 BuildRequires : pkgconfig(gl)
@@ -48,7 +49,9 @@ BuildRequires : pkgconfig(gmodule-export-2.0)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gstreamer-allocators-1.0)
 BuildRequires : pkgconfig(gtk+-3.0)
+BuildRequires : pkgconfig(libcrypto)
 BuildRequires : pkgconfig(libcurl)
+BuildRequires : pkgconfig(libdrm)
 BuildRequires : pkgconfig(libexif)
 BuildRequires : pkgconfig(libpng)
 BuildRequires : pkgconfig(librsvg-2.0)
@@ -59,8 +62,13 @@ BuildRequires : pkgconfig(nettle)
 BuildRequires : pkgconfig(openal)
 BuildRequires : pkgconfig(opencv)
 BuildRequires : pkgconfig(openssl)
+BuildRequires : pkgconfig(pango)
+BuildRequires : pkgconfig(pangocairo)
 BuildRequires : pkgconfig(sdl)
 BuildRequires : pkgconfig(sndfile)
+BuildRequires : pkgconfig(wayland-cursor)
+BuildRequires : pkgconfig(wayland-egl)
+BuildRequires : pkgconfig(wayland-protocols)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(x11-xcb)
 BuildRequires : pkgconfig(xcb)
@@ -132,14 +140,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1500045580
+export SOURCE_DATE_EPOCH=1503074661
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition -fstack-protector-strong "
 %reconfigure --disable-static --enable-opencv
 make V=1  %{?_smp_mflags}
 
@@ -151,7 +159,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1500045580
+export SOURCE_DATE_EPOCH=1503074661
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -167,8 +175,6 @@ rm -rf %{buildroot}
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/share/gir-1.0/*.gir
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -254,8 +260,6 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtsdescriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtssection.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts.h
-/usr/include/gstreamer-1.0/gst/opencv/gstopencvutils.h
-/usr/include/gstreamer-1.0/gst/opencv/gstopencvvideofilter.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-g-main-context-signal-dispatcher.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-media-info.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-signal-dispatcher.h
@@ -281,7 +285,6 @@ rm -rf %{buildroot}
 /usr/lib64/libgstgl-1.0.so
 /usr/lib64/libgstinsertbin-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
-/usr/lib64/libgstopencv-1.0.so
 /usr/lib64/libgstphotography-1.0.so
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
@@ -628,7 +631,6 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
-/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopengl.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
@@ -679,8 +681,6 @@ rm -rf %{buildroot}
 /usr/lib64/libgstinsertbin-1.0.so.0.1202.0
 /usr/lib64/libgstmpegts-1.0.so.0
 /usr/lib64/libgstmpegts-1.0.so.0.1202.0
-/usr/lib64/libgstopencv-1.0.so.0
-/usr/lib64/libgstopencv-1.0.so.0.1202.0
 /usr/lib64/libgstphotography-1.0.so.0
 /usr/lib64/libgstphotography-1.0.so.0.1202.0
 /usr/lib64/libgstplayer-1.0.so.0
