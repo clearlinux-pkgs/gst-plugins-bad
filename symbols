@@ -667,6 +667,12 @@ libgstmpegts-1.0.so.0:gst_mpegts_terrestrial_guard_interval_get_type
 libgstmpegts-1.0.so.0:gst_mpegts_terrestrial_hierarchy_get_type
 libgstmpegts-1.0.so.0:gst_mpegts_terrestrial_transmission_mode_get_type
 libgstmpegts-1.0.so.0:gst_mpegts_tot_get_type
+libgstopencv-1.0.so.0:gst_opencv_caps_from_cv_image_type
+libgstopencv-1.0.so.0:gst_opencv_cv_image_type_from_video_format
+libgstopencv-1.0.so.0:gst_opencv_iplimage_params_from_video_info
+libgstopencv-1.0.so.0:gst_opencv_parse_iplimage_params_from_caps
+libgstopencv-1.0.so.0:gst_opencv_video_filter_get_type
+libgstopencv-1.0.so.0:gst_opencv_video_filter_set_in_place
 libgstphotography-1.0.so.0:gst_photography_caps_get_type
 libgstphotography-1.0.so.0:gst_photography_color_tone_mode_get_type
 libgstphotography-1.0.so.0:gst_photography_exposure_mode_get_type
