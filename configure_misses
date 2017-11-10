@@ -103,7 +103,6 @@ Configure miss: mpcdec/mpcdec.h presence
 Configure miss: mpcdec/mpcdec.h
 Configure miss: NEON
 Configure miss: OFA
-Configure miss: OPENCV
 Configure miss: OPENEXR
 Configure miss: OPENH264
 Configure miss: OPENJPEG
