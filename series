@@ -1,2 +1,3 @@
 0001-disable-gst-segementation-plugin.patch
 0002-Disable-request-by-bgsegm.hpp.patch
+0003-opencv-Update-version-for-building-plugins.patch
