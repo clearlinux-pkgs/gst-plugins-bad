@@ -1,7 +1,5 @@
 Configure miss: VALGRIND
 Configure miss: whether to build plugin documentation
-Configure miss: whether gcc is Clang
-Configure miss: whether more special flags are required for pthreads
 Configure miss: whether this is an uninstalled GStreamer setup
 Configure miss: GRAPHENE
 Configure miss: DSSIM
@@ -22,7 +20,6 @@ Configure miss: MobileCoreServices/MobileCoreServices.h
 Configure miss: VideoToolbox/VideoToolbox.h
 Configure miss: winsock2.h usability
 Configure miss: winsock2.h presence
-Configure miss: winsock2.h
 Configure miss: fbGetDisplay in -lEGL
 Configure miss: EGL/fbdev_window.h usability
 Configure miss: EGL/fbdev_window.h presence
@@ -106,6 +103,7 @@ Configure miss: mpcdec/mpcdec.h presence
 Configure miss: mpcdec/mpcdec.h
 Configure miss: NEON
 Configure miss: OFA
+Configure miss: OPENCV
 Configure miss: OPENEXR
 Configure miss: OPENH264
 Configure miss: OPENJPEG
