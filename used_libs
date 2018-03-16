@@ -45,6 +45,7 @@ librsvg-2.so.2
 librt.so.1
 libsbc.so.1
 libsndfile.so.1
+libsrtp.so.1
 libssl.so.1.0.0
 libstdc++.so.6
 libwayland-client.so.0
