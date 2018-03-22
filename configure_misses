@@ -49,10 +49,8 @@ Configure miss: cuda.h
 Configure miss: cuda_runtime_api.h usability
 Configure miss: cuda_runtime_api.h presence
 Configure miss: cuda_runtime_api.h
-Configure miss: cudaGetErrorString in -lcudart
 Configure miss: nvEncodeAPI.h presence
 Configure miss: nvEncodeAPI.h
-Configure miss: NvEncodeAPICreateInstance in -lnvidia-encode
 Configure miss: tinyalsa/asoundlib.h usability
 Configure miss: tinyalsa/asoundlib.h presence
 Configure miss: tinyalsa/asoundlib.h
