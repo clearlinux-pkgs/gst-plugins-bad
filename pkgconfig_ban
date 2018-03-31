@@ -70,3 +70,9 @@ cuda-8.0
 cudart-8.0
 dssim
 dvdread
+srt
+libsrtp2
+libopenmpt
+gstreamer-sdp-[$GST_API_VERSION
+gstreamer-gl-[$GST_API_VERSION
+aom

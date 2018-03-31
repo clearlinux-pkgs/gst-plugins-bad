@@ -1,10 +1,7 @@
 Configure miss: VALGRIND
 Configure miss: whether to build plugin documentation
 Configure miss: whether this is an uninstalled GStreamer setup
-Configure miss: GRAPHENE
 Configure miss: DSSIM
-Configure miss: ORC
-Configure miss: whether to build static plugins or not
 Configure miss: to see if Objective C compiler understands 
 Configure miss: to see if Objective C compiler understands -Wall
 Configure miss: to see if Objective C compiler understands -Wmissing-declarations
@@ -20,13 +17,6 @@ Configure miss: MobileCoreServices/MobileCoreServices.h
 Configure miss: VideoToolbox/VideoToolbox.h
 Configure miss: winsock2.h usability
 Configure miss: winsock2.h presence
-Configure miss: fbGetDisplay in -lEGL
-Configure miss: EGL/fbdev_window.h usability
-Configure miss: EGL/fbdev_window.h presence
-Configure miss: EGL/fbdev_window.h
-Configure miss: bcm_host_init in -lbcm_host
-Configure miss: glTexDirectVIV in -lGLESv2
-Configure miss: jpeg_set_defaults in -ljpeg-mmx
 Configure miss: DirectSound LDFLAGS
 Configure miss: WASAPI LDFLAGS
 Configure miss: Direct3D LDFLAGS
@@ -50,6 +40,10 @@ Configure miss: cuda_runtime_api.h usability
 Configure miss: cuda_runtime_api.h presence
 Configure miss: cuda_runtime_api.h
 Configure miss: cudaGetErrorString in -lcudart
+Configure miss: nvcuvid.h usability
+Configure miss: nvcuvid.h presence
+Configure miss: nvcuvid.h
+Configure miss: cuvidCtxLock in -lnvcuvid
 Configure miss: nvEncodeAPI.h usability
 Configure miss: nvEncodeAPI.h presence
 Configure miss: nvEncodeAPI.h
@@ -57,11 +51,15 @@ Configure miss: NvEncodeAPICreateInstance in -lnvidia-encode
 Configure miss: tinyalsa/asoundlib.h usability
 Configure miss: tinyalsa/asoundlib.h presence
 Configure miss: tinyalsa/asoundlib.h
+Configure miss: G_UDEV
+Configure miss: LIBMFX
 Configure miss: mfxdefs.h usability
 Configure miss: mfxdefs.h presence
 Configure miss: mfxdefs.h
 Configure miss: MFXInit in -lmfx
+Configure miss: LIBVA_DRM
 Configure miss: ASSRENDER
+Configure miss: AOM
 Configure miss: VOAMRWBENC
 Configure miss: VOAACENC
 Configure miss: BS2B
@@ -89,6 +87,8 @@ Configure miss: LILV
 Configure miss: LILV
 Configure miss: LIBDE265
 Configure miss: LIBMMS
+Configure miss: SRT
+Configure miss: SRTP
 Configure miss: MODPLUG
 Configure miss: MJPEG
 Configure miss: MPEG2ENC
@@ -101,21 +101,19 @@ Configure miss: mpcdec/mpcdec.h presence
 Configure miss: mpcdec/mpcdec.h
 Configure miss: NEON
 Configure miss: OFA
-Configure miss: OPENCV
 Configure miss: OPENEXR
 Configure miss: OPENH264
 Configure miss: OPENJPEG
 Configure miss: OPENJPEG
 Configure miss: opj_version in -lopenjpeg
+Configure miss: OPENMPT
 Configure miss: OPENNI2
 Configure miss: OPUS
-Configure miss: QT
 Configure miss: vulkan/vulkan.h usability
 Configure miss: vulkan/vulkan.h presence
 Configure miss: vulkan/vulkan.h
 Configure miss: TELETEXTDEC
 Configure miss: WildMidi_Init in -lWildMidi
-Configure miss: WildMidi_LoadSamples in -lWildMidi
 Configure miss: SOUNDTOUCH
 Configure miss: SOUNDTOUCH
 Configure miss: SOUNDTOUCH
@@ -139,7 +137,6 @@ Configure miss: vdpau/vdpau.h
 Configure miss: vdpau/vdpau_x11.h usability
 Configure miss: vdpau/vdpau_x11.h presence
 Configure miss: vdpau/vdpau_x11.h
-Configure miss: SCHRO
 Configure miss: ZBAR
 Configure miss: RTMP
 Configure miss: SPANDSP
