@@ -5,17 +5,16 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.14.0
-Release  : 48
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz.asc
+Version  : 1.14.1
+Release  : 49
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz.asc
 Summary  : GStreamer WebRTC support
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
 Requires: gst-plugins-bad-data
 Requires: gst-plugins-bad-lib
-Requires: gst-plugins-bad-doc
 Requires: gst-plugins-bad-locales
 Requires: libsrtp
 BuildRequires : automake
@@ -125,7 +124,7 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.14.0
+%setup -q -n gst-plugins-bad-1.14.1
 %patch1 -p1
 %patch2 -p1
 
@@ -134,7 +133,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526051026
+export SOURCE_DATE_EPOCH=1526722070
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -153,7 +152,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1526051026
+export SOURCE_DATE_EPOCH=1526722070
 rm -rf %{buildroot}
 %make_install
 %find_lang gst-plugins-bad-1.0
@@ -538,7 +537,6 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gme.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gmedec.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gsm.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gstsiren.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-hls.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-id3tag.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-inter.html
@@ -577,7 +575,6 @@ rm -rf %{buildroot}
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-pcapparse.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-pnm.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-proxy.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rawparse.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-removesilence.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-resindvd.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rfbsrc.html
@@ -819,33 +816,33 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1400.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1401.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1400.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1401.0
 /usr/lib64/libgstbadvideo-1.0.so.0
-/usr/lib64/libgstbadvideo-1.0.so.0.1400.0
+/usr/lib64/libgstbadvideo-1.0.so.0.1401.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1400.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1401.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1400.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1401.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1400.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1401.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1400.0
+/usr/lib64/libgstisoff-1.0.so.0.1401.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1400.0
+/usr/lib64/libgstmpegts-1.0.so.0.1401.0
 /usr/lib64/libgstopencv-1.0.so.0
-/usr/lib64/libgstopencv-1.0.so.0.1400.0
+/usr/lib64/libgstopencv-1.0.so.0.1401.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1400.0
+/usr/lib64/libgstphotography-1.0.so.0.1401.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1400.0
+/usr/lib64/libgstplayer-1.0.so.0.1401.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1400.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1401.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1400.0
+/usr/lib64/libgstwayland-1.0.so.0.1401.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1400.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1401.0
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
