@@ -5,21 +5,23 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.14.1
-Release  : 49
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz.asc
+Version  : 1.14.2
+Release  : 50
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz.asc
 Summary  : GStreamer WebRTC support
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
 Requires: gst-plugins-bad-data
 Requires: gst-plugins-bad-lib
+Requires: gst-plugins-bad-license
 Requires: gst-plugins-bad-locales
 Requires: libsrtp
 BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : bluez-dev
+BuildRequires : buildreq-meson
 BuildRequires : bzip2-dev
 BuildRequires : docbook-xml
 BuildRequires : gettext-bin
@@ -37,9 +39,7 @@ BuildRequires : libusb-dev
 BuildRequires : libxslt-bin
 BuildRequires : m4
 BuildRequires : mesa-dev
-BuildRequires : meson
 BuildRequires : mpg123-dev
-BuildRequires : ninja
 BuildRequires : opencv-dev
 BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(cairo)
@@ -65,7 +65,6 @@ BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(wayland-protocols)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xcb)
-BuildRequires : python3
 BuildRequires : sbc-dev
 BuildRequires : valgrind
 BuildRequires : vulkan-sdk-dev
@@ -110,9 +109,18 @@ doc components for the gst-plugins-bad package.
 Summary: lib components for the gst-plugins-bad package.
 Group: Libraries
 Requires: gst-plugins-bad-data
+Requires: gst-plugins-bad-license
 
 %description lib
 lib components for the gst-plugins-bad package.
+
+
+%package license
+Summary: license components for the gst-plugins-bad package.
+Group: Default
+
+%description license
+license components for the gst-plugins-bad package.
 
 
 %package locales
@@ -124,7 +132,7 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.14.1
+%setup -q -n gst-plugins-bad-1.14.2
 %patch1 -p1
 %patch2 -p1
 
@@ -133,7 +141,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526722070
+export SOURCE_DATE_EPOCH=1532098659
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -141,7 +149,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --enable-opencv
+%reconfigure --disable-static --disable-opencv
 make  %{?_smp_mflags}
 
 %check
@@ -152,8 +160,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1526722070
+export SOURCE_DATE_EPOCH=1532098659
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/gst-plugins-bad
+cp COPYING %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING
+cp COPYING.LIB %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING.LIB
+cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
 %make_install
 %find_lang gst-plugins-bad-1.0
 
@@ -167,8 +179,6 @@ rm -rf %{buildroot}
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/girepository-1.0/GstWebRTC-1.0.typelib
 /usr/share/gir-1.0/*.gir
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
-/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -205,9 +215,6 @@ rm -rf %{buildroot}
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtssection.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts-prelude.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts.h
-/usr/include/gstreamer-1.0/gst/opencv/gstopencvutils.h
-/usr/include/gstreamer-1.0/gst/opencv/gstopencvvideofilter.h
-/usr/include/gstreamer-1.0/gst/opencv/opencv-prelude.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-g-main-context-signal-dispatcher.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-media-info.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-signal-dispatcher.h
@@ -242,7 +249,6 @@ rm -rf %{buildroot}
 /usr/lib64/libgstinsertbin-1.0.so
 /usr/lib64/libgstisoff-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
-/usr/lib64/libgstopencv-1.0.so
 /usr/lib64/libgstphotography-1.0.so
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
@@ -258,7 +264,7 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayer.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerMediaInfo.html
 /usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerVideoOverlayVideoRenderer.html
@@ -781,7 +787,6 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
-/usr/lib64/gstreamer-1.0/libgstopencv.so
 /usr/lib64/gstreamer-1.0/libgstopenglmixers.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
@@ -816,33 +821,37 @@ rm -rf %{buildroot}
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1401.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1402.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1401.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1402.0
 /usr/lib64/libgstbadvideo-1.0.so.0
-/usr/lib64/libgstbadvideo-1.0.so.0.1401.0
+/usr/lib64/libgstbadvideo-1.0.so.0.1402.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1401.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1402.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1401.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1402.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1401.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1402.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1401.0
+/usr/lib64/libgstisoff-1.0.so.0.1402.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1401.0
-/usr/lib64/libgstopencv-1.0.so.0
-/usr/lib64/libgstopencv-1.0.so.0.1401.0
+/usr/lib64/libgstmpegts-1.0.so.0.1402.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1401.0
+/usr/lib64/libgstphotography-1.0.so.0.1402.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1401.0
+/usr/lib64/libgstplayer-1.0.so.0.1402.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1401.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1402.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1401.0
+/usr/lib64/libgstwayland-1.0.so.0.1402.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1401.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1402.0
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/gst-plugins-bad/COPYING
+/usr/share/doc/gst-plugins-bad/COPYING.LIB
+/usr/share/doc/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
