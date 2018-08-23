@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.14.2
-Release  : 50
+Release  : 51
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.2.tar.xz.asc
@@ -141,7 +141,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1532098659
+export SOURCE_DATE_EPOCH=1535063567
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -160,7 +160,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1532098659
+export SOURCE_DATE_EPOCH=1535063567
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING
@@ -815,6 +815,7 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/lib64/gstreamer-1.0/libgstvideoparsersbad.so
 /usr/lib64/gstreamer-1.0/libgstvideosignal.so
 /usr/lib64/gstreamer-1.0/libgstvmnc.so
+/usr/lib64/gstreamer-1.0/libgstvulkan.so
 /usr/lib64/gstreamer-1.0/libgstwaylandsink.so
 /usr/lib64/gstreamer-1.0/libgstwebp.so
 /usr/lib64/gstreamer-1.0/libgstwebrtc.so

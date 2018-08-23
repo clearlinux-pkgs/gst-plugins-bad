@@ -39,7 +39,6 @@ Configure miss: cuda.h
 Configure miss: cuda_runtime_api.h usability
 Configure miss: cuda_runtime_api.h presence
 Configure miss: cuda_runtime_api.h
-Configure miss: cudaGetErrorString in -lcudart
 Configure miss: nvcuvid.h usability
 Configure miss: nvcuvid.h presence
 Configure miss: nvcuvid.h
@@ -109,9 +108,6 @@ Configure miss: opj_version in -lopenjpeg
 Configure miss: OPENMPT
 Configure miss: OPENNI2
 Configure miss: OPUS
-Configure miss: vulkan/vulkan.h usability
-Configure miss: vulkan/vulkan.h presence
-Configure miss: vulkan/vulkan.h
 Configure miss: TELETEXTDEC
 Configure miss: WildMidi_Init in -lWildMidi
 Configure miss: SOUNDTOUCH

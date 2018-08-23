@@ -41,6 +41,8 @@ libsndfile.so.1
 libsrtp.so.1
 libssl.so.1.0.0
 libstdc++.so.6
+libvulkan.so.1
 libwayland-client.so.0
 libwebp.so.7
+libxcb.so.1
 libxml2.so.2
