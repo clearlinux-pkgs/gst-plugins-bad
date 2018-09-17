@@ -1,5 +1,5 @@
-1.14.2
+1.14.3
 bzip2-dev
-valgrind
-libusb-dev
 gtk+-dev
+libusb-dev
+valgrind

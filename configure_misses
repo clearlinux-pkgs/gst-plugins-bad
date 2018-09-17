@@ -42,7 +42,6 @@ Configure miss: cuda_runtime_api.h
 Configure miss: nvcuvid.h usability
 Configure miss: nvcuvid.h presence
 Configure miss: nvcuvid.h
-Configure miss: cuvidCtxLock in -lnvcuvid
 Configure miss: nvEncodeAPI.h usability
 Configure miss: nvEncodeAPI.h presence
 Configure miss: nvEncodeAPI.h
