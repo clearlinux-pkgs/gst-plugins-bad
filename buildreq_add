@@ -12,3 +12,7 @@ opencv-dev
 sbc-dev
 vulkan-sdk-dev
 wayland-dev
+openexr-dev
+mpc-dev
+libssh2-dev
+opus-dev

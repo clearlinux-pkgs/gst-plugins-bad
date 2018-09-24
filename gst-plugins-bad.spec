@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.14.3
-Release  : 52
+Release  : 53
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.3.tar.xz.asc
@@ -33,14 +33,18 @@ BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : gtk3-dev
 BuildRequires : libsrtp-dev
+BuildRequires : libssh2-dev
 BuildRequires : libtool
 BuildRequires : libtool-dev
 BuildRequires : libusb-dev
 BuildRequires : libxslt-bin
 BuildRequires : m4
 BuildRequires : mesa-dev
+BuildRequires : mpc-dev
 BuildRequires : mpg123-dev
 BuildRequires : opencv-dev
+BuildRequires : openexr-dev
+BuildRequires : opus-dev
 BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(cairo)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
@@ -89,9 +93,9 @@ data components for the gst-plugins-bad package.
 %package dev
 Summary: dev components for the gst-plugins-bad package.
 Group: Development
-Requires: gst-plugins-bad-lib
-Requires: gst-plugins-bad-data
-Provides: gst-plugins-bad-devel
+Requires: gst-plugins-bad-lib = %{version}-%{release}
+Requires: gst-plugins-bad-data = %{version}-%{release}
+Provides: gst-plugins-bad-devel = %{version}-%{release}
 
 %description dev
 dev components for the gst-plugins-bad package.
@@ -108,8 +112,8 @@ doc components for the gst-plugins-bad package.
 %package lib
 Summary: lib components for the gst-plugins-bad package.
 Group: Libraries
-Requires: gst-plugins-bad-data
-Requires: gst-plugins-bad-license
+Requires: gst-plugins-bad-data = %{version}-%{release}
+Requires: gst-plugins-bad-license = %{version}-%{release}
 
 %description lib
 lib components for the gst-plugins-bad package.
@@ -141,7 +145,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537204910
+export SOURCE_DATE_EPOCH=1537801209
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -149,7 +153,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --disable-opencv
+%reconfigure --disable-static
 make  %{?_smp_mflags}
 
 %check
@@ -160,7 +164,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1537204910
+export SOURCE_DATE_EPOCH=1537801209
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING
@@ -179,6 +183,8 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/girepository-1.0/GstWebRTC-1.0.typelib
 /usr/share/gir-1.0/*.gir
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/fist.xml
+/usr/share/gst-plugins-bad/1.0/opencv_haarcascades/palm.xml
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
 
 %files dev
@@ -215,6 +221,9 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtssection.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts-prelude.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts.h
+/usr/include/gstreamer-1.0/gst/opencv/gstopencvutils.h
+/usr/include/gstreamer-1.0/gst/opencv/gstopencvvideofilter.h
+/usr/include/gstreamer-1.0/gst/opencv/opencv-prelude.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-g-main-context-signal-dispatcher.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-media-info.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-signal-dispatcher.h
@@ -249,6 +258,7 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/lib64/libgstinsertbin-1.0.so
 /usr/lib64/libgstisoff-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
+/usr/lib64/libgstopencv-1.0.so
 /usr/lib64/libgstphotography-1.0.so
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
@@ -787,7 +797,10 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/lib64/gstreamer-1.0/libgstmxf.so
 /usr/lib64/gstreamer-1.0/libgstnetsim.so
 /usr/lib64/gstreamer-1.0/libgstopenal.so
+/usr/lib64/gstreamer-1.0/libgstopencv.so
+/usr/lib64/gstreamer-1.0/libgstopenexr.so
 /usr/lib64/gstreamer-1.0/libgstopenglmixers.so
+/usr/lib64/gstreamer-1.0/libgstopusparse.so
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
 /usr/lib64/gstreamer-1.0/libgstproxy.so
@@ -837,6 +850,8 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 /usr/lib64/libgstisoff-1.0.so.0.1403.0
 /usr/lib64/libgstmpegts-1.0.so.0
 /usr/lib64/libgstmpegts-1.0.so.0.1403.0
+/usr/lib64/libgstopencv-1.0.so.0
+/usr/lib64/libgstopencv-1.0.so.0.1403.0
 /usr/lib64/libgstphotography-1.0.so.0
 /usr/lib64/libgstphotography-1.0.so.0.1403.0
 /usr/lib64/libgstplayer-1.0.so.0
