@@ -6,18 +6,21 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.14.4
-Release  : 55
+Release  : 56
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz.asc
 Summary  : GStreamer WebRTC support
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
-Requires: gst-plugins-bad-data
-Requires: gst-plugins-bad-lib
-Requires: gst-plugins-bad-license
-Requires: gst-plugins-bad-locales
+Requires: gst-plugins-bad-data = %{version}-%{release}
+Requires: gst-plugins-bad-lib = %{version}-%{release}
+Requires: gst-plugins-bad-license = %{version}-%{release}
+Requires: gst-plugins-bad-locales = %{version}-%{release}
 Requires: libsrtp
+BuildRequires : Vulkan-Headers-dev
+BuildRequires : Vulkan-Loader-dev
+BuildRequires : Vulkan-Tools
 BuildRequires : automake
 BuildRequires : automake-dev
 BuildRequires : bluez-dev
@@ -71,7 +74,6 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : sbc-dev
 BuildRequires : valgrind
-BuildRequires : vulkan-sdk-dev
 BuildRequires : wayland-dev
 Patch1: 0001-disable-gst-segementation-plugin.patch
 Patch2: 0002-Disable-request-by-bgsegm.hpp.patch
@@ -145,7 +147,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1538584559
+export SOURCE_DATE_EPOCH=1538607739
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -164,12 +166,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1538584559
+export SOURCE_DATE_EPOCH=1538607739
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/gst-plugins-bad
-cp COPYING %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING
-cp COPYING.LIB %{buildroot}/usr/share/doc/gst-plugins-bad/COPYING.LIB
-cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
+cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
+cp COPYING.LIB %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING.LIB
+cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
 %make_install
 %find_lang gst-plugins-bad-1.0
 
@@ -865,9 +867,9 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/doc/gst-pl
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/doc/gst-plugins-bad/COPYING
-/usr/share/doc/gst-plugins-bad/COPYING.LIB
-/usr/share/doc/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
+/usr/share/package-licenses/gst-plugins-bad/COPYING
+/usr/share/package-licenses/gst-plugins-bad/COPYING.LIB
+/usr/share/package-licenses/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
