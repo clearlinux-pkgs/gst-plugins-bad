@@ -28,6 +28,7 @@ libgstrtp-1.0.so.0
 libgstsdp-1.0.so.0
 libgsttag-1.0.so.0
 libgstvideo-1.0.so.0
+libgudev-1.0.so.0
 liblcms2.so.2
 libm.so.6
 libnettle.so.6
@@ -62,6 +63,9 @@ libsndfile.so.1
 libsrtp.so.1
 libssl.so.1.0.0
 libstdc++.so.6
+libusb-1.0.so.0
+libva-drm.so.2
+libva.so.2
 libvulkan.so.1
 libwayland-client.so.0
 libwebp.so.7

@@ -5,7 +5,10 @@ glu-dev
 gobject-introspection
 gobject-introspection-dev
 gtk3-dev
+libgudev-dev
 libsrtp-dev
+libva-dev
+mediasdk-dev
 mesa-dev
 mpg123-dev
 opencv-dev
