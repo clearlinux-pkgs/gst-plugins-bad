@@ -5,7 +5,7 @@ libX11.so.6
 libbz2.so.0
 libc.so.6
 libcairo.so.2
-libcrypto.so.1.0.0
+libcrypto.so.1.1
 libcurl.so.4
 libdl.so.2
 libdrm.so.2
@@ -31,6 +31,7 @@ libgstvideo-1.0.so.0
 libgudev-1.0.so.0
 liblcms2.so.2
 libm.so.6
+libmfx.so.1
 libnettle.so.6
 libnice.so.10
 libopenal.so.1
@@ -61,7 +62,7 @@ librt.so.1
 libsbc.so.1
 libsndfile.so.1
 libsrtp.so.1
-libssl.so.1.0.0
+libssl.so.1.1
 libstdc++.so.6
 libusb-1.0.so.0
 libva-drm.so.2
