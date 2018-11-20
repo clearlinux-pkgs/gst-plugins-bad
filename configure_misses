@@ -39,7 +39,6 @@ Configure miss: cuda_runtime_api.h usability
 Configure miss: cuda_runtime_api.h presence
 Configure miss: cuda_runtime_api.h
 Configure miss: cudaGetErrorString in -lcudart
-Configure miss: cuInit in -lcuda
 Configure miss: nvcuvid.h usability
 Configure miss: nvcuvid.h presence
 Configure miss: nvcuvid.h

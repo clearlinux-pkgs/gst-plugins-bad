@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.14.4
-Release  : 59
+Release  : 60
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.4.tar.xz.asc
@@ -88,14 +88,6 @@ WHAT IT IS
 ----------
 This is GStreamer, a framework for streaming media.
 
-%package abi
-Summary: abi components for the gst-plugins-bad package.
-Group: Default
-
-%description abi
-abi components for the gst-plugins-bad package.
-
-
 %package data
 Summary: data components for the gst-plugins-bad package.
 Group: Data
@@ -159,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542398405
+export SOURCE_DATE_EPOCH=1542736474
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -178,7 +170,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1542398405
+export SOURCE_DATE_EPOCH=1542736474
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
@@ -189,23 +181,6 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 
 %files
 %defattr(-,root,root,-)
-
-%files abi
-%defattr(-,root,root,-)
-/usr/share/abi/libgstadaptivedemux-1.0.so.0.abi
-/usr/share/abi/libgstbadaudio-1.0.so.0.abi
-/usr/share/abi/libgstbadvideo-1.0.so.0.abi
-/usr/share/abi/libgstbasecamerabinsrc-1.0.so.0.abi
-/usr/share/abi/libgstcodecparsers-1.0.so.0.abi
-/usr/share/abi/libgstinsertbin-1.0.so.0.abi
-/usr/share/abi/libgstisoff-1.0.so.0.abi
-/usr/share/abi/libgstmpegts-1.0.so.0.abi
-/usr/share/abi/libgstopencv-1.0.so.0.abi
-/usr/share/abi/libgstphotography-1.0.so.0.abi
-/usr/share/abi/libgstplayer-1.0.so.0.abi
-/usr/share/abi/libgsturidownloader-1.0.so.0.abi
-/usr/share/abi/libgstwayland-1.0.so.0.abi
-/usr/share/abi/libgstwebrtc-1.0.so.0.abi
 
 %files data
 %defattr(-,root,root,-)
