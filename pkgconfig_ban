@@ -68,6 +68,8 @@ cuda-7.5
 cudart-7.5
 cuda-8.0
 cudart-8.0
+cuda-10.0
+cudart-10.0
 dssim
 dvdread
 srt

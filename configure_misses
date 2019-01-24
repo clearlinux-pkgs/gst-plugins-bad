@@ -4,6 +4,7 @@ Configure miss: whether this is an uninstalled GStreamer setup
 Configure miss: DSSIM
 Configure miss: to see if Objective C compiler understands 
 Configure miss: to see if Objective C compiler understands -Wall
+Configure miss: to see if Objective C compiler understands -Werror
 Configure miss: to see if Objective C compiler understands -Wmissing-declarations
 Configure miss: to see if Objective C compiler understands -Wredundant-decls
 Configure miss: to see if Objective C compiler understands -Wwrite-strings
@@ -32,6 +33,10 @@ Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
+Configure miss: CUDA
+Configure miss: CUDA
+Configure miss: CUDA
+Configure miss: CUDA
 Configure miss: cuda.h usability
 Configure miss: cuda.h presence
 Configure miss: cuda.h
@@ -39,13 +44,7 @@ Configure miss: cuda_runtime_api.h usability
 Configure miss: cuda_runtime_api.h presence
 Configure miss: cuda_runtime_api.h
 Configure miss: cudaGetErrorString in -lcudart
-Configure miss: nvcuvid.h usability
-Configure miss: nvcuvid.h presence
-Configure miss: nvcuvid.h
 Configure miss: cuvidCtxLock in -lnvcuvid
-Configure miss: nvEncodeAPI.h usability
-Configure miss: nvEncodeAPI.h presence
-Configure miss: nvEncodeAPI.h
 Configure miss: NvEncodeAPICreateInstance in -lnvidia-encode
 Configure miss: tinyalsa/asoundlib.h usability
 Configure miss: tinyalsa/asoundlib.h presence
@@ -63,7 +62,6 @@ Configure miss: dts_init in -ldts_pic
 Configure miss: DVDNAV
 Configure miss: faacEncOpen in -lfaac
 Configure miss: NeAACDecOpen in -lfaad
-Configure miss: FDK_AAC
 Configure miss: FDK_AAC
 Configure miss: flite_init in -lflite
 Configure miss: gsm_create in -lgsm
@@ -87,9 +85,6 @@ Configure miss: MPLEX
 Configure miss: mpc/mpcdec.h usability
 Configure miss: mpc/mpcdec.h presence
 Configure miss: mpc/mpcdec.h
-Configure miss: mpcdec/mpcdec.h usability
-Configure miss: mpcdec/mpcdec.h presence
-Configure miss: mpcdec/mpcdec.h
 Configure miss: NEON
 Configure miss: OFA
 Configure miss: OPENH264
@@ -105,14 +100,9 @@ Configure miss: SOUNDTOUCH
 Configure miss: SOUNDTOUCH
 Configure miss: SOUNDTOUCH
 Configure miss: SOUNDTOUCH
-Configure miss: openspc.h usability
-Configure miss: openspc.h presence
-Configure miss: openspc.h
 Configure miss: gme/gme.h usability
 Configure miss: gme/gme.h presence
 Configure miss: gme/gme.h
-Configure miss: Checking for ACM support... checking for windows.h
-Configure miss: msacm.h
 Configure miss: VDPAU
 Configure miss: vdpau/vdpau.h usability
 Configure miss: vdpau/vdpau.h presence
@@ -128,3 +118,6 @@ Configure miss: RTMP
 Configure miss: SPANDSP
 Configure miss: X265
 Configure miss: WEBRTCDSP
+Configure miss: usrsctp.h usability
+Configure miss: usrsctp.h presence
+Configure miss: usrsctp.h
