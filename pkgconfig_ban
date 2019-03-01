@@ -78,3 +78,5 @@ libopenmpt
 gstreamer-sdp-[$GST_API_VERSION
 gstreamer-gl-[$GST_API_VERSION
 aom
+wpe-webkit-0.1
+wpebackend-fdo-0.1

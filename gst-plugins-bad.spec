@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.15.1
-Release  : 64
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.1.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.1.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.1.tar.xz.asc
+Version  : 1.15.2
+Release  : 67
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz.asc
 Summary  : SCTP helper functions, uninstalled
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
@@ -46,6 +46,7 @@ BuildRequires : opencv-dev
 BuildRequires : openexr-dev
 BuildRequires : opus-dev
 BuildRequires : pkgconfig(cairo)
+BuildRequires : pkgconfig(egl)
 BuildRequires : pkgconfig(gmodule-no-export-2.0)
 BuildRequires : pkgconfig(gstreamer-allocators-1.0)
 BuildRequires : pkgconfig(gtk+-3.0)
@@ -68,6 +69,7 @@ BuildRequires : pkgconfig(sndfile)
 BuildRequires : pkgconfig(wayland-protocols)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xcb)
+BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : sbc-dev
 BuildRequires : valgrind
 BuildRequires : wayland-dev
@@ -132,14 +134,14 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.15.1
+%setup -q -n gst-plugins-bad-1.15.2
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1548289142
+export SOURCE_DATE_EPOCH=1551391775
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -147,7 +149,7 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --disable-opencv
+%reconfigure --disable-static --disable-opencv --disable-wpe
 make  %{?_smp_mflags}
 
 %check
@@ -158,7 +160,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1548289142
+export SOURCE_DATE_EPOCH=1551391775
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
@@ -592,7 +594,6 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-timecode.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ttmlsubs.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-uvch264.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-vcdsrc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-vdpau.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videofiltersbad.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videoframe_audiolevel.html
@@ -676,7 +677,6 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-uvch264mjpgdemux.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-uvch264src.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vc1parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vcdsrc.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vdpaumpegdec.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videoanalyse.html
 /usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videodiff.html
@@ -798,7 +798,6 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/lib64/gstreamer-1.0/libgsttimecode.so
 /usr/lib64/gstreamer-1.0/libgstttmlsubs.so
 /usr/lib64/gstreamer-1.0/libgstuvch264.so
-/usr/lib64/gstreamer-1.0/libgstvcdsrc.so
 /usr/lib64/gstreamer-1.0/libgstvideofiltersbad.so
 /usr/lib64/gstreamer-1.0/libgstvideoframe_audiolevel.so
 /usr/lib64/gstreamer-1.0/libgstvideoparsersbad.so
@@ -811,31 +810,31 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1501.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1502.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1501.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1502.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1501.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1502.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1501.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1502.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1501.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1502.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1501.0
+/usr/lib64/libgstisoff-1.0.so.0.1502.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1501.0
+/usr/lib64/libgstmpegts-1.0.so.0.1502.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1501.0
+/usr/lib64/libgstphotography-1.0.so.0.1502.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1501.0
+/usr/lib64/libgstplayer-1.0.so.0.1502.0
 /usr/lib64/libgstsctp-1.0.so.0
 /usr/lib64/libgstsctp-1.0.so.0.0.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1501.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1502.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1501.0
+/usr/lib64/libgstwayland-1.0.so.0.1502.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1501.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1502.0
 
 %files license
 %defattr(0644,root,root,0755)

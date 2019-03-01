@@ -544,6 +544,7 @@ libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_connection_state_change
 libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_gathering_state_change
 libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_get_type
 libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_new_candidate
+libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_policy_get_type
 libgstwebrtc-1.0.so.0:gst_webrtc_ice_transport_selected_pair_change
 libgstwebrtc-1.0.so.0:gst_webrtc_peer_connection_state_get_type
 libgstwebrtc-1.0.so.0:gst_webrtc_priority_type_get_type
