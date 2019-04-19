@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.15.2
-Release  : 67
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.15.2.tar.xz.asc
-Summary  : SCTP helper functions, uninstalled
+Version  : 1.16.0
+Release  : 68
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
+Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz.asc
+Summary  : GStreamer Multimedia Framework Bad Plugins
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
 Requires: gst-plugins-bad-data = %{version}-%{release}
@@ -75,10 +75,11 @@ BuildRequires : valgrind
 BuildRequires : wayland-dev
 
 %description
-GStreamer 1.15.x development series
-WHAT IT IS
-----------
-This is GStreamer, a framework for streaming media.
+INTRODUCTION
+============
+This document is an attempt to describe the basics of the DTLS element.
+It hasn't been written by the author(s) and so, besides being incomplete,
+*IT MIGHT ALSO BE INCORRECT*. So take it with a pinch of salt.
 
 %package data
 Summary: data components for the gst-plugins-bad package.
@@ -94,6 +95,7 @@ Group: Development
 Requires: gst-plugins-bad-lib = %{version}-%{release}
 Requires: gst-plugins-bad-data = %{version}-%{release}
 Provides: gst-plugins-bad-devel = %{version}-%{release}
+Requires: gst-plugins-bad = %{version}-%{release}
 
 %description dev
 dev components for the gst-plugins-bad package.
@@ -134,21 +136,21 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.15.2
+%setup -q -n gst-plugins-bad-1.16.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551391775
+export SOURCE_DATE_EPOCH=1555681616
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %reconfigure --disable-static --disable-opencv --disable-wpe
 make  %{?_smp_mflags}
 
@@ -160,7 +162,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1551391775
+export SOURCE_DATE_EPOCH=1555681616
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
@@ -810,31 +812,31 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1502.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1600.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1502.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1600.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1502.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1600.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1502.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1600.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1502.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1600.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1502.0
+/usr/lib64/libgstisoff-1.0.so.0.1600.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1502.0
+/usr/lib64/libgstmpegts-1.0.so.0.1600.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1502.0
+/usr/lib64/libgstphotography-1.0.so.0.1600.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1502.0
+/usr/lib64/libgstplayer-1.0.so.0.1600.0
 /usr/lib64/libgstsctp-1.0.so.0
 /usr/lib64/libgstsctp-1.0.so.0.0.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1502.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1600.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1502.0
+/usr/lib64/libgstwayland-1.0.so.0.1600.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1502.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1600.0
 
 %files license
 %defattr(0644,root,root,0755)

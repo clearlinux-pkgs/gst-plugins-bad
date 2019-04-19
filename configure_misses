@@ -4,7 +4,6 @@ Configure miss: whether this is an uninstalled GStreamer setup
 Configure miss: DSSIM
 Configure miss: to see if Objective C compiler understands 
 Configure miss: to see if Objective C compiler understands -Wall
-Configure miss: to see if Objective C compiler understands -Werror
 Configure miss: to see if Objective C compiler understands -Wmissing-declarations
 Configure miss: to see if Objective C compiler understands -Wredundant-decls
 Configure miss: to see if Objective C compiler understands -Wwrite-strings
@@ -37,7 +36,7 @@ Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
-Configure miss: cuda.h usability
+Configure miss: CUDA
 Configure miss: cuda.h presence
 Configure miss: cuda.h
 Configure miss: cuda_runtime_api.h usability

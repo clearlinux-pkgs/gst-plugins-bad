@@ -80,3 +80,7 @@ gstreamer-gl-[$GST_API_VERSION
 aom
 wpe-webkit-0.1
 wpebackend-fdo-0.1
+wpe-webkit-1.0
+wpebackend-fdo-1.0
+cuda-10.1
+cudart-10.1
