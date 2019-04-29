@@ -37,6 +37,7 @@ Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
 Configure miss: CUDA
+Configure miss: cuda.h usability
 Configure miss: cuda.h presence
 Configure miss: cuda.h
 Configure miss: cuda_runtime_api.h usability

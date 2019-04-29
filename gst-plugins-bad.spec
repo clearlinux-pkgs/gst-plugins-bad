@@ -6,11 +6,11 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.16.0
-Release  : 68
+Release  : 69
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
 Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz.asc
-Summary  : GStreamer Multimedia Framework Bad Plugins
+Summary  : SCTP helper functions, uninstalled
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
 Requires: gst-plugins-bad-data = %{version}-%{release}
@@ -25,6 +25,7 @@ BuildRequires : bluez-dev
 BuildRequires : buildreq-meson
 BuildRequires : bzip2-dev
 BuildRequires : docbook-xml
+BuildRequires : gettext
 BuildRequires : glu-dev
 BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
@@ -75,11 +76,10 @@ BuildRequires : valgrind
 BuildRequires : wayland-dev
 
 %description
-INTRODUCTION
-============
-This document is an attempt to describe the basics of the DTLS element.
-It hasn't been written by the author(s) and so, besides being incomplete,
-*IT MIGHT ALSO BE INCORRECT*. So take it with a pinch of salt.
+GStreamer 1.16.x stable series
+WHAT IT IS
+----------
+This is GStreamer, a framework for streaming media.
 
 %package data
 Summary: data components for the gst-plugins-bad package.
@@ -143,14 +143,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1555681616
+export SOURCE_DATE_EPOCH=1556566859
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %reconfigure --disable-static --disable-opencv --disable-wpe
 make  %{?_smp_mflags}
 
@@ -162,7 +162,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1555681616
+export SOURCE_DATE_EPOCH=1556566859
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
