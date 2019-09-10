@@ -6,10 +6,10 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.16.0
-Release  : 69
+Release  : 70
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
-Source99 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz.asc
+Source1 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz.asc
 Summary  : SCTP helper functions, uninstalled
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
@@ -34,6 +34,7 @@ BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : gtk3-dev
 BuildRequires : libgudev-dev
+BuildRequires : libsrtp
 BuildRequires : libsrtp-dev
 BuildRequires : libssh2-dev
 BuildRequires : libusb-dev
@@ -142,8 +143,9 @@ locales components for the gst-plugins-bad package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556566859
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568096270
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -155,14 +157,14 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -f
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1556566859
+export SOURCE_DATE_EPOCH=1568096270
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING

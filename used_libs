@@ -2,7 +2,7 @@ libHalf.so.24
 libIex-2_3.so.24
 libIlmImf-2_3.so.24
 libX11.so.6
-libbz2.so.0
+libbz2.so.1.0
 libc.so.6
 libcairo.so.2
 libcrypto.so.1.1
@@ -30,7 +30,7 @@ libgudev-1.0.so.0
 liblcms2.so.2
 libm.so.6
 libmfx.so.1
-libnettle.so.6
+libnettle.so.7
 libnice.so.10
 libopenal.so.1
 libopus.so.0
