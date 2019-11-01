@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.16.0
-Release  : 71
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz
-Source1 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.0.tar.xz.asc
+Version  : 1.16.1
+Release  : 72
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz
+Source1 : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.1.tar.xz.asc
 Summary  : SCTP helper functions, uninstalled
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
@@ -137,14 +137,15 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.16.0
+%setup -q -n gst-plugins-bad-1.16.1
+cd %{_builddir}/gst-plugins-bad-1.16.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568096270
+export SOURCE_DATE_EPOCH=1572633444
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -164,12 +165,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1568096270
+export SOURCE_DATE_EPOCH=1572633444
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING
-cp COPYING.LIB %{buildroot}/usr/share/package-licenses/gst-plugins-bad/COPYING.LIB
-cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
+cp %{_builddir}/gst-plugins-bad-1.16.1/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/d39b91ed01b50190f556a8fefb279e9188178cc6
+cp %{_builddir}/gst-plugins-bad-1.16.1/COPYING.LIB %{buildroot}/usr/share/package-licenses/gst-plugins-bad/a401522f552c7c1e2a286e765be6494193ccc190
+cp %{_builddir}/gst-plugins-bad-1.16.1/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
 %make_install
 %find_lang gst-plugins-bad-1.0
 
@@ -814,37 +815,37 @@ cp gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-li
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/gstreamer-1.0/libgstyadif.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1600.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1601.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1600.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1601.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1600.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1601.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1600.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1601.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1600.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1601.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1600.0
+/usr/lib64/libgstisoff-1.0.so.0.1601.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1600.0
+/usr/lib64/libgstmpegts-1.0.so.0.1601.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1600.0
+/usr/lib64/libgstphotography-1.0.so.0.1601.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1600.0
+/usr/lib64/libgstplayer-1.0.so.0.1601.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.0.0
+/usr/lib64/libgstsctp-1.0.so.0.1601.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1600.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1601.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1600.0
+/usr/lib64/libgstwayland-1.0.so.0.1601.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1600.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1601.0
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/gst-plugins-bad/COPYING
-/usr/share/package-licenses/gst-plugins-bad/COPYING.LIB
-/usr/share/package-licenses/gst-plugins-bad/gst-libs_gst_codecparsers_dboolhuff.LICENSE
+/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
+/usr/share/package-licenses/gst-plugins-bad/a401522f552c7c1e2a286e765be6494193ccc190
+/usr/share/package-licenses/gst-plugins-bad/d39b91ed01b50190f556a8fefb279e9188178cc6
 
 %files locales -f gst-plugins-bad-1.0.lang
 %defattr(-,root,root,-)
