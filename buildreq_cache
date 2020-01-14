@@ -1,6 +1,4 @@
-1.16.1
-bzip2-dev
-gettext
+1.16.2
 gtk+-dev
 libusb-dev
 valgrind
