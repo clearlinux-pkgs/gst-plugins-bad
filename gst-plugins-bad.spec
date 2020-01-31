@@ -6,13 +6,14 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.16.2
-Release  : 73
+Release  : 74
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz.asc
-Summary  : Bad audio library for GStreamer elements, Not Installed
+Summary  : SCTP helper functions, uninstalled
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 LGPL-2.0
+Requires: gst-plugins-bad-bin = %{version}-%{release}
 Requires: gst-plugins-bad-data = %{version}-%{release}
 Requires: gst-plugins-bad-lib = %{version}-%{release}
 Requires: gst-plugins-bad-license = %{version}-%{release}
@@ -25,7 +26,6 @@ BuildRequires : bluez-dev
 BuildRequires : buildreq-meson
 BuildRequires : docbook-xml
 BuildRequires : glu-dev
-BuildRequires : gobject-introspection
 BuildRequires : gobject-introspection-dev
 BuildRequires : gtk+-dev
 BuildRequires : gtk-doc
@@ -42,7 +42,6 @@ BuildRequires : mediasdk-dev
 BuildRequires : mesa-dev
 BuildRequires : mpc-dev
 BuildRequires : mpg123-dev
-BuildRequires : opencv-dev
 BuildRequires : openexr-dev
 BuildRequires : opus-dev
 BuildRequires : pkgconfig(cairo)
@@ -61,7 +60,6 @@ BuildRequires : pkgconfig(libxml-2.0)
 BuildRequires : pkgconfig(nettle)
 BuildRequires : pkgconfig(nice)
 BuildRequires : pkgconfig(openal)
-BuildRequires : pkgconfig(opencv)
 BuildRequires : pkgconfig(openssl)
 BuildRequires : pkgconfig(pango)
 BuildRequires : pkgconfig(pangocairo)
@@ -80,6 +78,16 @@ WHAT IT IS
 ----------
 This is GStreamer, a framework for streaming media.
 
+%package bin
+Summary: bin components for the gst-plugins-bad package.
+Group: Binaries
+Requires: gst-plugins-bad-data = %{version}-%{release}
+Requires: gst-plugins-bad-license = %{version}-%{release}
+
+%description bin
+bin components for the gst-plugins-bad package.
+
+
 %package data
 Summary: data components for the gst-plugins-bad package.
 Group: Data
@@ -92,20 +100,13 @@ data components for the gst-plugins-bad package.
 Summary: dev components for the gst-plugins-bad package.
 Group: Development
 Requires: gst-plugins-bad-lib = %{version}-%{release}
+Requires: gst-plugins-bad-bin = %{version}-%{release}
 Requires: gst-plugins-bad-data = %{version}-%{release}
 Provides: gst-plugins-bad-devel = %{version}-%{release}
 Requires: gst-plugins-bad = %{version}-%{release}
 
 %description dev
 dev components for the gst-plugins-bad package.
-
-
-%package doc
-Summary: doc components for the gst-plugins-bad package.
-Group: Documentation
-
-%description doc
-doc components for the gst-plugins-bad package.
 
 
 %package lib
@@ -143,7 +144,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1578967859
+export SOURCE_DATE_EPOCH=1580507228
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -152,28 +153,32 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --disable-opencv --disable-wpe
-make  %{?_smp_mflags}
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
+-Dwpe=disabled \
+-Dvdpau=disabled  builddir
+ninja -v -C builddir
 
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+meson test -C builddir || :
 
 %install
-export SOURCE_DATE_EPOCH=1578967859
-rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
 cp %{_builddir}/gst-plugins-bad-1.16.2/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/d39b91ed01b50190f556a8fefb279e9188178cc6
 cp %{_builddir}/gst-plugins-bad-1.16.2/COPYING.LIB %{buildroot}/usr/share/package-licenses/gst-plugins-bad/a401522f552c7c1e2a286e765be6494193ccc190
 cp %{_builddir}/gst-plugins-bad-1.16.2/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-%make_install
+DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/playout
 
 %files data
 %defattr(-,root,root,-)
@@ -266,460 +271,6 @@ cp %{_builddir}/gst-plugins-bad-1.16.2/gst-libs/gst/codecparsers/dboolhuff.LICEN
 /usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-sctp-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
-
-%files doc
-%defattr(0644,root,root,0755)
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayer.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerMediaInfo.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerVideoOverlayVideoRenderer.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstPlayerVisualization.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCDTLSTransport.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCICETransport.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCRTPReceiver.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCRTPSender.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCRTPTransceiver.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/GstWebRTCSessionDescription.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/annotation-glossary.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/api-index-deprecated.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/api-index-full.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/ch06.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/codecparsers.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/compiling.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-1.0.devhelp2
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-ATSC-variants-of-MPEG-TS-descriptors.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-ATSC-variants-of-MPEG-TS-sections.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-Base-MPEG-TS-descriptors.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-Base-MPEG-TS-sections.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-DVB-variants-of-MPEG-TS-descriptors.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-DVB-variants-of-MPEG-TS-sections.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstInsertbin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstPhotography.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-GstPlayerGMainContextSignalDispatcher.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-ISDB-variants-of-MPEG-TS-descriptors.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-Mpeg-ts-helper-library.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-gstmpegvideometa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-h264parser.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-jpegparser.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-mpeg4parser.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-mpegvideoparser.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gst-plugins-bad-libs-vc1parser.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gstreamer-libs-hierarchy.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/gstreamer-plugins-bad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/home.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/index.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/left-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/left.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/mpegts.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/player.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/right-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/right.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/style.css
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/tools.html
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/up-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/up.png
-/usr/share/gtk-doc/html/gst-plugins-bad-libs-1.0/webrtc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/camerabin.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/ch01.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/ch02.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-1.0.devhelp2
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-IQA.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-a2dpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-accurip.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-adpcmdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-adpcmenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-aiffmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-aiffparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-asfmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-asfparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-assrender.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audiobuffersplit.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audiochannelmix.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audiolatency.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audiomixmatrix.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audioparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-audiosegmentclip.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-autoconvert.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-autovideoconvert.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-avdtpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-avdtpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-avwait.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bayer2rgb.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bpmdetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bs2b.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bulge.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-burn.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bz2dec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-bz2enc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-camerabin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-checksumsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-chopmydata.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-chromahold.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-chromaprint.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-chromium.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-circle.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-coloreffects.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-combdetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-compare.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlfilesink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlftpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlhttpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlhttpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlsftpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-curlsmtpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvdilate.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvequalizehist.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cverode.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvlaplace.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvsmooth.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-cvsobel.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dashdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dc1394src.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-debugspy.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-decklinkaudiosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-decklinkaudiosrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-decklinkvideosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-decklinkvideosrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dewarp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dfbvideosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-diffuse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dilate.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-diracparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-disparity.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dodge.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtlsdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtlsenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtlssrtpdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtlssrtpdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtlssrtpenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtmfdetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dtsdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dvbbasebin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dvbsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dvbsuboverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-dvdspu.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-edgedetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-errorignore.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-exclusion.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-faac.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-faad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-faceblur.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-facedetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-faceoverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fakevideosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fbdevsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fdkaacdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fdkaacenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-festival.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fieldanalysis.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fisheye.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fluiddec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-fpsdisplaysink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-freeverb.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gaussianblur.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gdpdepay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gdppay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gmedec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-grabcut.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gsmdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-gsmenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-h263parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-h264parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-h265parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-handdetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-hlsdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-hlssink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-hlssink2.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-id3mux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-interaudiosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-interaudiosrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-interlace.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-intersubsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-intersubsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-intervideosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-intervideosrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ipcpipelinesink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ipcpipelinesrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ipcslavepipeline.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-irtspparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ivfparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ivtc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-jifmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-jp2kdecimator.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-jpeg2000parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-jpegparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-kaleidoscope.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-katedec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-kateenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-kateparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-katetag.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-kmssink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ladspa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-liveadder.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-marble.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-midiparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mirror.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mmssrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-modplug.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-motioncells.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpeg2enc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpeg4videoparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpegpsdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpegpsmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpegtsmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mpegvideoparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mplex.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mssdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-musepackdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mxfdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-mxfmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-neonhttpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-netsim.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ofa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openalsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openalsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-opencvtextoverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openexrdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openh264dec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openh264enc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openjpegdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-openjpegenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-opusparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pcapparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-perspective.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pinch.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pitch.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-accurip.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-adpcmdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-adpcmenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-aiff.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-asfmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-assrender.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-audiobuffersplit.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-audiofxbad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-audiolatency.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-audiomixmatrix.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-audiovisualizers.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-autoconvert.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-bayer.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-bluez.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-bs2b.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-bz2.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-camerabin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-chromaprint.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-coloreffects.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-colormanagement.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-curl.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dashdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dc1394.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-de265.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-debugutilsbad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-decklink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dfbvideosink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dtls.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dtsdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dvb.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dvbsuboverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-dvdspu.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-faac.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-faad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-faceoverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-fbdevsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-fdkaac.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-festival.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-fieldanalysis.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-flite.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-fluidsynthmidi.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-freeverb.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-frei0r.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gaudieffects.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gdp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-geometrictransform.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gme.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gmedec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-gsm.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-hls.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-id3tag.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-inter.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-interlace.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ipcpipeline.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ivfparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ivtc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-jp2kdecimator.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-jpegformat.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-kate.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-kms.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ladspa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-legacyrawparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-midi.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mms.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-modplug.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpeg2enc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpegpsdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpegpsmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpegtsdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mpegtsmux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mplex.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-musepack.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-mxf.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-neon.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-neonhttpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-netsim.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ofa.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-openal.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-opencv.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-openexr.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-openh264.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-openjpeg.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-opusparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-pcapparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-pnm.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-proxy.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-removesilence.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-resindvd.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rfbsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rsvg.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rtmp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-rtponvif.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-sbc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-sdpelem.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-segmentclip.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-shm.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-siren.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-smooth.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-smoothstreaming.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-sndfile.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-soundtouch.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-spandsp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-speed.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-srtp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-subenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-teletext.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-timecode.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-ttmlsubs.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-uvch264.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-vdpau.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videofiltersbad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videoframe_audiolevel.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videoparsersbad.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-videosignal.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-vmnc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-voaacenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-voamrwbenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-vulkan.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-wasapi.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-waylandsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-webp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-webrtc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-webrtcdsp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-wildmidi.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-x265.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-y4mdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-yadif.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-plugin-zbar.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pngparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pnmdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-pnmenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-proxysink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-proxysrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rawaudioparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rawvideoparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-removesilence.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-retinex.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rfbsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rgb2bayer.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rotate.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rsndvdbin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rsvgdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rsvgoverlay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rtmpsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rtmpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rtpasfpay.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rtponvifparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-rtponviftimestamp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sbcdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sbcenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-scenechange.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sdpdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sdpsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-segmentation.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sfdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-shmsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-shmsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-simplevideomark.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-simplevideomarkdetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sirendec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sirenenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-skindetect.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-smooth.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-solarize.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-spacescope.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-spanplc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-spectrascope.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-speed.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-sphere.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-square.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-srtenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-srtpdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-srtpenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-stretch.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-synaescope.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-teletextdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-templatematch.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-testsrcbin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tiger.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-timecodestamper.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tonegeneratesrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tsdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tsparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ttmlparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-ttmlrender.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-tunnel.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-twirl.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-unalignedaudioparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-unalignedvideoparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-uvch264mjpgdemux.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-uvch264src.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vc1parse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vdpaumpegdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videoanalyse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videodiff.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videoframe-audiolevel.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videoparse.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-videosegmentclip.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-viewfinderbin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vmncdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-voaacenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-voamrwbenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vulkansink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-vulkanupload.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-wasapisink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-wasapisrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-watchdog.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-waterripple.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-wavescope.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-waylandsink.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webpdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webpenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webrtcbin.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webrtcdsp.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webrtcechoprobe.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-webvttenc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-wildmidi.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-wrappercamerabinsrc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-x265enc.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-y4mdec.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-yadif.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-zbar.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/gst-plugins-bad-plugins-zebrastripe.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/home.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/index.html
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/left-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/left.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/right-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/right.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/style.css
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/up-insensitive.png
-/usr/share/gtk-doc/html/gst-plugins-bad-plugins-1.0/up.png
 
 %files lib
 %defattr(-,root,root,-)

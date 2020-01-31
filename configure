@@ -1,1 +1,3 @@
---disable-opencv --disable-wpe
+-Dopencv=disabled
+-Dwpe=disabled
+-Dvdpau=disabled
