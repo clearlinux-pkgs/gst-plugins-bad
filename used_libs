@@ -2,6 +2,7 @@ libHalf.so.24
 libIex-2_3.so.24
 libIlmImf-2_3.so.24
 libX11.so.6
+libavtp.so.0
 libbz2.so.1.0
 libc.so.6
 libcairo.so.2
@@ -19,6 +20,7 @@ libgstapp-1.0.so.0
 libgstaudio-1.0.so.0
 libgstbase-1.0.so.0
 libgstfft-1.0.so.0
+libgstgl-1.0.so.0
 libgstnet-1.0.so.0
 libgstpbutils-1.0.so.0
 libgstreamer-1.0.so.0
@@ -48,7 +50,6 @@ libstdc++.so.6
 libusb-1.0.so.0
 libva-drm.so.2
 libva.so.2
-libvulkan.so.1
 libwayland-client.so.0
 libwebp.so.7
 libxml2.so.2

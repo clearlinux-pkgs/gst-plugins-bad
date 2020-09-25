@@ -70,6 +70,8 @@ libtimidity
 libvisual-0.4
 lilv-0
 lrdf
+ltc
+microdns
 mjpegtools
 neon
 opencv
@@ -86,6 +88,7 @@ soundtouch-1.0
 soundtouch-1.4
 spandsp
 srt
+svthevcenc
 tinyalsa
 vdpau
 vo-aacenc
@@ -102,3 +105,4 @@ x265)
 zbar
 zvbi-0.2
 zvbi-0.2)
+zxing
