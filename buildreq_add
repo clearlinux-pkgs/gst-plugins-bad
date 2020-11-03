@@ -9,6 +9,7 @@ gobject-introspection-dev
 gtk+-dev
 gtk3-dev
 libgudev-dev
+libpcap-dev
 libsrtp-dev
 libssh2-dev
 libusb-dev

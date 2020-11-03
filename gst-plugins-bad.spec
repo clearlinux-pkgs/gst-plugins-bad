@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.18.1
-Release  : 82
+Release  : 83
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.1.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.1.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.1.tar.xz.asc
@@ -33,6 +33,7 @@ BuildRequires : gtk+-dev
 BuildRequires : gtk3-dev
 BuildRequires : lcms2-dev
 BuildRequires : libgudev-dev
+BuildRequires : libpcap-dev
 BuildRequires : librsvg-dev
 BuildRequires : libsndfile-dev
 BuildRequires : libsrtp
@@ -135,7 +136,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1603927678
+export SOURCE_DATE_EPOCH=1604378326
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
