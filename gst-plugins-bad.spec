@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.18.4
-Release  : 87
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.4.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.4.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.4.tar.xz.asc
+Version  : 1.18.5
+Release  : 88
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz.asc
 Summary  : GStreamer WebRTC support
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause GPL-2.0 LGPL-2.1
@@ -128,23 +128,23 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.18.4
-cd %{_builddir}/gst-plugins-bad-1.18.4
+%setup -q -n gst-plugins-bad-1.18.5
+cd %{_builddir}/gst-plugins-bad-1.18.5
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1615905901
+export SOURCE_DATE_EPOCH=1631204934
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
 -Dwpe=disabled \
 -Dvdpau=disabled \
@@ -160,11 +160,11 @@ meson test -C builddir || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp %{_builddir}/gst-plugins-bad-1.18.4/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/gst-plugins-bad-1.18.4/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
-cp %{_builddir}/gst-plugins-bad-1.18.4/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
-cp %{_builddir}/gst-plugins-bad-1.18.4/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-cp %{_builddir}/gst-plugins-bad-1.18.4/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+cp %{_builddir}/gst-plugins-bad-1.18.5/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/gst-plugins-bad-1.18.5/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
+cp %{_builddir}/gst-plugins-bad-1.18.5/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
+cp %{_builddir}/gst-plugins-bad-1.18.5/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
+cp %{_builddir}/gst-plugins-bad-1.18.5/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
 
@@ -389,34 +389,34 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1804.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1805.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1804.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1805.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1804.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1805.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1804.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1805.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.1804.0
+/usr/lib64/libgstcodecs-1.0.so.0.1805.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1804.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1805.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1804.0
+/usr/lib64/libgstisoff-1.0.so.0.1805.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1804.0
+/usr/lib64/libgstmpegts-1.0.so.0.1805.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1804.0
+/usr/lib64/libgstphotography-1.0.so.0.1805.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1804.0
+/usr/lib64/libgstplayer-1.0.so.0.1805.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.1804.0
+/usr/lib64/libgstsctp-1.0.so.0.1805.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1804.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1805.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1804.0
+/usr/lib64/libgstwayland-1.0.so.0.1805.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1804.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1805.0
 
 %files license
 %defattr(0644,root,root,0755)
