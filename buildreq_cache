@@ -1,4 +1,4 @@
-1.18.5
+1.18.6
 curl-dev
 gstreamer-dev
 lcms2-dev
@@ -17,3 +17,4 @@ pkgconfig(nettle)
 pkgconfig(nice)
 pkgconfig(openal)
 pkgconfig(sndfile)
+pkgconfig(wayland-protocols)

@@ -5,16 +5,17 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.18.5
-Release  : 88
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz.asc
+Version  : 1.18.6
+Release  : 89
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz.asc
 Summary  : GStreamer WebRTC support
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause GPL-2.0 LGPL-2.1
 Requires: gst-plugins-bad-bin = %{version}-%{release}
 Requires: gst-plugins-bad-data = %{version}-%{release}
+Requires: gst-plugins-bad-filemap = %{version}-%{release}
 Requires: gst-plugins-bad-lib = %{version}-%{release}
 Requires: gst-plugins-bad-license = %{version}-%{release}
 Requires: gst-plugins-bad-locales = %{version}-%{release}
@@ -36,7 +37,6 @@ BuildRequires : libgudev-dev
 BuildRequires : libpcap-dev
 BuildRequires : librsvg-dev
 BuildRequires : libsndfile-dev
-BuildRequires : libsrtp
 BuildRequires : libsrtp-dev
 BuildRequires : libssh2-dev
 BuildRequires : libusb-dev
@@ -60,6 +60,7 @@ BuildRequires : pkgconfig(nettle)
 BuildRequires : pkgconfig(nice)
 BuildRequires : pkgconfig(openal)
 BuildRequires : pkgconfig(sndfile)
+BuildRequires : pkgconfig(wayland-protocols)
 BuildRequires : sbc-dev
 BuildRequires : valgrind
 BuildRequires : wayland-dev
@@ -75,6 +76,7 @@ Summary: bin components for the gst-plugins-bad package.
 Group: Binaries
 Requires: gst-plugins-bad-data = %{version}-%{release}
 Requires: gst-plugins-bad-license = %{version}-%{release}
+Requires: gst-plugins-bad-filemap = %{version}-%{release}
 
 %description bin
 bin components for the gst-plugins-bad package.
@@ -101,11 +103,20 @@ Requires: gst-plugins-bad = %{version}-%{release}
 dev components for the gst-plugins-bad package.
 
 
+%package filemap
+Summary: filemap components for the gst-plugins-bad package.
+Group: Default
+
+%description filemap
+filemap components for the gst-plugins-bad package.
+
+
 %package lib
 Summary: lib components for the gst-plugins-bad package.
 Group: Libraries
 Requires: gst-plugins-bad-data = %{version}-%{release}
 Requires: gst-plugins-bad-license = %{version}-%{release}
+Requires: gst-plugins-bad-filemap = %{version}-%{release}
 
 %description lib
 lib components for the gst-plugins-bad package.
@@ -128,15 +139,18 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.18.5
-cd %{_builddir}/gst-plugins-bad-1.18.5
+%setup -q -n gst-plugins-bad-1.18.6
+cd %{_builddir}/gst-plugins-bad-1.18.6
+pushd ..
+cp -a gst-plugins-bad-1.18.6 buildavx512
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1631204934
+export SOURCE_DATE_EPOCH=1643840949
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -147,26 +161,31 @@ export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
 -Dwpe=disabled \
--Dvdpau=disabled \
 -Dexamples=disabled  builddir
 ninja -v -C builddir
+CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -Wl,-z,x86-64-v4 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -Wl,-z,x86-64-v4 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
+-Dwpe=disabled \
+-Dexamples=disabled  builddiravx512
+ninja -v -C builddiravx512
 
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-meson test -C builddir || :
+meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp %{_builddir}/gst-plugins-bad-1.18.5/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/gst-plugins-bad-1.18.5/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
-cp %{_builddir}/gst-plugins-bad-1.18.5/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
-cp %{_builddir}/gst-plugins-bad-1.18.5/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-cp %{_builddir}/gst-plugins-bad-1.18.5/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+cp %{_builddir}/gst-plugins-bad-1.18.6/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/gst-plugins-bad-1.18.6/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
+cp %{_builddir}/gst-plugins-bad-1.18.6/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
+cp %{_builddir}/gst-plugins-bad-1.18.6/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
+cp %{_builddir}/gst-plugins-bad-1.18.6/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+DESTDIR=%{buildroot}-v4 ninja -C builddiravx512 install
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
+/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -174,6 +193,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/gst-transcoder-1.0
+/usr/share/clear/optimized-elf/bin*
 
 %files data
 %defattr(-,root,root,-)
@@ -288,6 +308,10 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/pkgconfig/gstreamer-transcoder-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-gst-plugins-bad
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/gstreamer-1.0/libgstaccurip.so
@@ -389,34 +413,35 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1805.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.1806.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1805.0
+/usr/lib64/libgstbadaudio-1.0.so.0.1806.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1805.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1806.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1805.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.1806.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.1805.0
+/usr/lib64/libgstcodecs-1.0.so.0.1806.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1805.0
+/usr/lib64/libgstinsertbin-1.0.so.0.1806.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1805.0
+/usr/lib64/libgstisoff-1.0.so.0.1806.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1805.0
+/usr/lib64/libgstmpegts-1.0.so.0.1806.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1805.0
+/usr/lib64/libgstphotography-1.0.so.0.1806.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1805.0
+/usr/lib64/libgstplayer-1.0.so.0.1806.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.1805.0
+/usr/lib64/libgstsctp-1.0.so.0.1806.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1805.0
+/usr/lib64/libgsturidownloader-1.0.so.0.1806.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1805.0
+/usr/lib64/libgstwayland-1.0.so.0.1806.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1805.0
+/usr/lib64/libgstwebrtc-1.0.so.0.1806.0
+/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
