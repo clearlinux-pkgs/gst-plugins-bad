@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.18.6
-Release  : 89
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.6.tar.xz.asc
-Summary  : GStreamer WebRTC support
+Version  : 1.20.0
+Release  : 90
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz.asc
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause GPL-2.0 LGPL-2.1
 Requires: gst-plugins-bad-bin = %{version}-%{release}
@@ -32,11 +32,13 @@ BuildRequires : gobject-introspection-dev
 BuildRequires : gstreamer-dev
 BuildRequires : gtk+-dev
 BuildRequires : gtk3-dev
+BuildRequires : json-glib-dev
 BuildRequires : lcms2-dev
 BuildRequires : libgudev-dev
 BuildRequires : libpcap-dev
 BuildRequires : librsvg-dev
 BuildRequires : libsndfile-dev
+BuildRequires : libsoup-dev
 BuildRequires : libsrtp-dev
 BuildRequires : libssh2-dev
 BuildRequires : libusb-dev
@@ -51,10 +53,13 @@ BuildRequires : opus-dev
 BuildRequires : pkgconfig(avtp)
 BuildRequires : pkgconfig(gstreamer-1.0)
 BuildRequires : pkgconfig(gstreamer-pbutils-1.0)
+BuildRequires : pkgconfig(json-glib-1.0)
 BuildRequires : pkgconfig(lcms2)
 BuildRequires : pkgconfig(libcurl)
 BuildRequires : pkgconfig(libexif)
+BuildRequires : pkgconfig(libqrencode)
 BuildRequires : pkgconfig(librsvg-2.0)
+BuildRequires : pkgconfig(libsoup-2.4)
 BuildRequires : pkgconfig(libwebp)
 BuildRequires : pkgconfig(nettle)
 BuildRequires : pkgconfig(nice)
@@ -66,7 +71,7 @@ BuildRequires : valgrind
 BuildRequires : wayland-dev
 
 %description
-GStreamer 1.18.x stable series
+GStreamer 1.20.x stable series
 WHAT IT IS
 ----------
 This is GStreamer, a framework for streaming media.
@@ -139,10 +144,10 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.18.6
-cd %{_builddir}/gst-plugins-bad-1.18.6
+%setup -q -n gst-plugins-bad-1.20.0
+cd %{_builddir}/gst-plugins-bad-1.20.0
 pushd ..
-cp -a gst-plugins-bad-1.18.6 buildavx512
+cp -a gst-plugins-bad-1.20.0 buildavx512
 popd
 
 %build
@@ -150,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1643840949
+export SOURCE_DATE_EPOCH=1643988590
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -177,11 +182,11 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp %{_builddir}/gst-plugins-bad-1.18.6/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/gst-plugins-bad-1.18.6/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
-cp %{_builddir}/gst-plugins-bad-1.18.6/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
-cp %{_builddir}/gst-plugins-bad-1.18.6/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-cp %{_builddir}/gst-plugins-bad-1.18.6/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+cp %{_builddir}/gst-plugins-bad-1.20.0/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/gst-plugins-bad-1.20.0/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
+cp %{_builddir}/gst-plugins-bad-1.20.0/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
+cp %{_builddir}/gst-plugins-bad-1.20.0/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
+cp %{_builddir}/gst-plugins-bad-1.20.0/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
 DESTDIR=%{buildroot}-v4 ninja -C builddiravx512 install
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
@@ -201,6 +206,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/girepository-1.0/GstCodecs-1.0.typelib
 /usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
+/usr/lib64/girepository-1.0/GstPlay-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/girepository-1.0/GstTranscoder-1.0.typelib
 /usr/lib64/girepository-1.0/GstWebRTC-1.0.typelib
@@ -213,6 +219,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/gstreamer-1.0/encoding-profiles/file-extension/mp4.gep
 /usr/share/gstreamer-1.0/encoding-profiles/file-extension/oga.gep
 /usr/share/gstreamer-1.0/encoding-profiles/file-extension/ogv.gep
+/usr/share/gstreamer-1.0/encoding-profiles/file-extension/ts.gep
 /usr/share/gstreamer-1.0/encoding-profiles/file-extension/webm.gep
 /usr/share/gstreamer-1.0/encoding-profiles/online-services/youtube.gep
 /usr/share/gstreamer-1.0/presets/GstFreeverb.prs
@@ -244,15 +251,27 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/include/gstreamer-1.0/gst/interfaces/photography-prelude.h
 /usr/include/gstreamer-1.0/gst/interfaces/photography.h
 /usr/include/gstreamer-1.0/gst/isoff/gstisoff.h
+/usr/include/gstreamer-1.0/gst/mpegts/gst-atsc-descriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gst-atsc-section.h
 /usr/include/gstreamer-1.0/gst/mpegts/gst-dvb-descriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gst-dvb-section.h
+/usr/include/gstreamer-1.0/gst/mpegts/gst-hdmv-section.h
+/usr/include/gstreamer-1.0/gst/mpegts/gst-isdb-descriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gst-scte-section.h
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegts-enumtypes.h
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtsdescriptor.h
 /usr/include/gstreamer-1.0/gst/mpegts/gstmpegtssection.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts-prelude.h
 /usr/include/gstreamer-1.0/gst/mpegts/mpegts.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-media-info.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-signal-adapter.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-types.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-video-overlay-video-renderer.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-video-renderer.h
+/usr/include/gstreamer-1.0/gst/play/gstplay-visualization.h
+/usr/include/gstreamer-1.0/gst/play/gstplay.h
+/usr/include/gstreamer-1.0/gst/play/play-prelude.h
+/usr/include/gstreamer-1.0/gst/play/play.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-g-main-context-signal-dispatcher.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-media-info.h
 /usr/include/gstreamer-1.0/gst/player/gstplayer-signal-dispatcher.h
@@ -266,12 +285,15 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/include/gstreamer-1.0/gst/sctp/sctp-prelude.h
 /usr/include/gstreamer-1.0/gst/sctp/sctpreceivemeta.h
 /usr/include/gstreamer-1.0/gst/sctp/sctpsendmeta.h
+/usr/include/gstreamer-1.0/gst/transcoder/gsttranscoder-signal-adapter.h
 /usr/include/gstreamer-1.0/gst/transcoder/gsttranscoder.h
+/usr/include/gstreamer-1.0/gst/transcoder/transcoder-enumtypes.h
 /usr/include/gstreamer-1.0/gst/transcoder/transcoder-prelude.h
 /usr/include/gstreamer-1.0/gst/uridownloader/gstfragment.h
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader.h
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader_debug.h
 /usr/include/gstreamer-1.0/gst/uridownloader/uridownloader-prelude.h
+/usr/include/gstreamer-1.0/gst/wayland/wayland.h
 /usr/include/gstreamer-1.0/gst/webrtc/datachannel.h
 /usr/include/gstreamer-1.0/gst/webrtc/dtlstransport.h
 /usr/include/gstreamer-1.0/gst/webrtc/icetransport.h
@@ -279,6 +301,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/include/gstreamer-1.0/gst/webrtc/rtpreceiver.h
 /usr/include/gstreamer-1.0/gst/webrtc/rtpsender.h
 /usr/include/gstreamer-1.0/gst/webrtc/rtptransceiver.h
+/usr/include/gstreamer-1.0/gst/webrtc/sctptransport.h
 /usr/include/gstreamer-1.0/gst/webrtc/webrtc-enumtypes.h
 /usr/include/gstreamer-1.0/gst/webrtc/webrtc.h
 /usr/include/gstreamer-1.0/gst/webrtc/webrtc_fwd.h
@@ -291,10 +314,12 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libgstisoff-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
 /usr/lib64/libgstphotography-1.0.so
+/usr/lib64/libgstplay-1.0.so
 /usr/lib64/libgstplayer-1.0.so
 /usr/lib64/libgstsctp-1.0.so
 /usr/lib64/libgsttranscoder-1.0.so
 /usr/lib64/libgsturidownloader-1.0.so
+/usr/lib64/libgstva-1.0.so
 /usr/lib64/libgstwayland-1.0.so
 /usr/lib64/libgstwebrtc-1.0.so
 /usr/lib64/pkgconfig/gstreamer-bad-audio-1.0.pc
@@ -302,10 +327,13 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/pkgconfig/gstreamer-insertbin-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-mpegts-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-photography-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-play-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-player-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-sctp-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-transcoder-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-va-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-wayland-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
 
 %files filemap
@@ -317,6 +345,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstaccurip.so
 /usr/lib64/gstreamer-1.0/libgstadpcmdec.so
 /usr/lib64/gstreamer-1.0/libgstadpcmenc.so
+/usr/lib64/gstreamer-1.0/libgstaes.so
 /usr/lib64/gstreamer-1.0/libgstaiff.so
 /usr/lib64/gstreamer-1.0/libgstasfmux.so
 /usr/lib64/gstreamer-1.0/libgstaudiobuffersplit.so
@@ -331,6 +360,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstbz2.so
 /usr/lib64/gstreamer-1.0/libgstcamerabin.so
 /usr/lib64/gstreamer-1.0/libgstclosedcaption.so
+/usr/lib64/gstreamer-1.0/libgstcodecalpha.so
 /usr/lib64/gstreamer-1.0/libgstcoloreffects.so
 /usr/lib64/gstreamer-1.0/libgstcolormanagement.so
 /usr/lib64/gstreamer-1.0/libgstcurl.so
@@ -377,6 +407,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstpcapparse.so
 /usr/lib64/gstreamer-1.0/libgstpnm.so
 /usr/lib64/gstreamer-1.0/libgstproxy.so
+/usr/lib64/gstreamer-1.0/libgstqroverlay.so
 /usr/lib64/gstreamer-1.0/libgstremovesilence.so
 /usr/lib64/gstreamer-1.0/libgstrfbsrc.so
 /usr/lib64/gstreamer-1.0/libgstrist.so
@@ -410,37 +441,40 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstvmnc.so
 /usr/lib64/gstreamer-1.0/libgstwaylandsink.so
 /usr/lib64/gstreamer-1.0/libgstwebp.so
-/usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.1806.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.2000.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.1806.0
+/usr/lib64/libgstbadaudio-1.0.so.0.2000.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.1806.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2000.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.1806.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.2000.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.1806.0
+/usr/lib64/libgstcodecs-1.0.so.0.2000.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.1806.0
+/usr/lib64/libgstinsertbin-1.0.so.0.2000.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.1806.0
+/usr/lib64/libgstisoff-1.0.so.0.2000.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.1806.0
+/usr/lib64/libgstmpegts-1.0.so.0.2000.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.1806.0
+/usr/lib64/libgstphotography-1.0.so.0.2000.0
+/usr/lib64/libgstplay-1.0.so.0
+/usr/lib64/libgstplay-1.0.so.0.2000.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.1806.0
+/usr/lib64/libgstplayer-1.0.so.0.2000.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.1806.0
+/usr/lib64/libgstsctp-1.0.so.0.2000.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.1806.0
+/usr/lib64/libgsturidownloader-1.0.so.0.2000.0
+/usr/lib64/libgstva-1.0.so.0
+/usr/lib64/libgstva-1.0.so.0.2000.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.1806.0
+/usr/lib64/libgstwayland-1.0.so.0.2000.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.1806.0
+/usr/lib64/libgstwebrtc-1.0.so.0.2000.0
 /usr/share/clear/optimized-elf/lib*
 
 %files license
