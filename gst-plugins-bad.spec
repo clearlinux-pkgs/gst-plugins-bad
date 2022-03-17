@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.20.0
-Release  : 90
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.0.tar.xz.asc
+Version  : 1.20.1
+Release  : 91
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause GPL-2.0 LGPL-2.1
@@ -71,10 +71,8 @@ BuildRequires : valgrind
 BuildRequires : wayland-dev
 
 %description
-GStreamer 1.20.x stable series
-WHAT IT IS
-----------
-This is GStreamer, a framework for streaming media.
+To build this, you'll require the DirectShow base classes. These are supplied
+in the Windows SDK, but under Samples\Multimedia\DirectShow\BaseClasses
 
 %package bin
 Summary: bin components for the gst-plugins-bad package.
@@ -144,10 +142,10 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.20.0
-cd %{_builddir}/gst-plugins-bad-1.20.0
+%setup -q -n gst-plugins-bad-1.20.1
+cd %{_builddir}/gst-plugins-bad-1.20.1
 pushd ..
-cp -a gst-plugins-bad-1.20.0 buildavx512
+cp -a gst-plugins-bad-1.20.1 buildavx512
 popd
 
 %build
@@ -155,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1643988590
+export SOURCE_DATE_EPOCH=1647556153
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -182,11 +180,11 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp %{_builddir}/gst-plugins-bad-1.20.0/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/gst-plugins-bad-1.20.0/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
-cp %{_builddir}/gst-plugins-bad-1.20.0/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
-cp %{_builddir}/gst-plugins-bad-1.20.0/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-cp %{_builddir}/gst-plugins-bad-1.20.0/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+cp %{_builddir}/gst-plugins-bad-1.20.1/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
+cp %{_builddir}/gst-plugins-bad-1.20.1/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
+cp %{_builddir}/gst-plugins-bad-1.20.1/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
+cp %{_builddir}/gst-plugins-bad-1.20.1/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
+cp %{_builddir}/gst-plugins-bad-1.20.1/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
 DESTDIR=%{buildroot}-v4 ninja -C builddiravx512 install
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
@@ -332,7 +330,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-sctp-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-transcoder-1.0.pc
-/usr/lib64/pkgconfig/gstreamer-va-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-wayland-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
 
@@ -443,38 +440,38 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstwebp.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.2000.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.2001.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.2000.0
+/usr/lib64/libgstbadaudio-1.0.so.0.2001.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2000.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2001.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.2000.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.2001.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.2000.0
+/usr/lib64/libgstcodecs-1.0.so.0.2001.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.2000.0
+/usr/lib64/libgstinsertbin-1.0.so.0.2001.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.2000.0
+/usr/lib64/libgstisoff-1.0.so.0.2001.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.2000.0
+/usr/lib64/libgstmpegts-1.0.so.0.2001.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.2000.0
+/usr/lib64/libgstphotography-1.0.so.0.2001.0
 /usr/lib64/libgstplay-1.0.so.0
-/usr/lib64/libgstplay-1.0.so.0.2000.0
+/usr/lib64/libgstplay-1.0.so.0.2001.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.2000.0
+/usr/lib64/libgstplayer-1.0.so.0.2001.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.2000.0
+/usr/lib64/libgstsctp-1.0.so.0.2001.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.2000.0
+/usr/lib64/libgsturidownloader-1.0.so.0.2001.0
 /usr/lib64/libgstva-1.0.so.0
-/usr/lib64/libgstva-1.0.so.0.2000.0
+/usr/lib64/libgstva-1.0.so.0.2001.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.2000.0
+/usr/lib64/libgstwayland-1.0.so.0.2001.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.2000.0
+/usr/lib64/libgstwebrtc-1.0.so.0.2001.0
 /usr/share/clear/optimized-elf/lib*
 
 %files license
