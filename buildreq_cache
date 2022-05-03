@@ -1,4 +1,4 @@
-1.20.1
+1.20.2
 curl-dev
 gstreamer-dev
 json-glib-dev
@@ -8,14 +8,12 @@ libsndfile-dev
 libsoup-dev
 libwebp-dev
 pkgconfig(avtp)
-pkgconfig(google_cloud_cpp_storage)
 pkgconfig(gstreamer-1.0)
 pkgconfig(gstreamer-pbutils-1.0)
 pkgconfig(json-glib-1.0)
 pkgconfig(lcms2)
 pkgconfig(libcurl)
 pkgconfig(libexif)
-pkgconfig(libfreeaptx)
 pkgconfig(libqrencode)
 pkgconfig(librsvg-2.0)
 pkgconfig(libsoup-2.4)
