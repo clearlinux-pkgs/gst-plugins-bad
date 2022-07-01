@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.20.3
-Release  : 95
+Release  : 96
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz.asc
@@ -522,6 +522,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libgstwayland-1.0.so.0.2003.0
 /usr/lib64/libgstwebrtc-1.0.so.0
 /usr/lib64/libgstwebrtc-1.0.so.0.2003.0
+/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
