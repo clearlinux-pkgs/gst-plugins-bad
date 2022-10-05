@@ -6,7 +6,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.20.3
-Release  : 101
+Release  : 102
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz.asc
@@ -153,15 +153,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656429466
+export SOURCE_DATE_EPOCH=1664938757
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
 -Dwpe=disabled \
 -Dexamples=disabled  builddir
@@ -180,11 +180,11 @@ meson test -C builddir --print-errorlogs || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gst-plugins-bad
-cp %{_builddir}/gst-plugins-bad-1.20.3/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf
-cp %{_builddir}/gst-plugins-bad-1.20.3/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac
-cp %{_builddir}/gst-plugins-bad-1.20.3/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064
-cp %{_builddir}/gst-plugins-bad-1.20.3/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa
-cp %{_builddir}/gst-plugins-bad-1.20.3/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8
+cp %{_builddir}/gst-plugins-bad-%{version}/COPYING %{buildroot}/usr/share/package-licenses/gst-plugins-bad/01a6b4bf79aca9b556822601186afab86e8c4fbf || :
+cp %{_builddir}/gst-plugins-bad-%{version}/docs/random/LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/22990b105a08bb838c95fcc4bc5450c6dfdc79ac || :
+cp %{_builddir}/gst-plugins-bad-%{version}/ext/sctp/usrsctp/LICENSE.md %{buildroot}/usr/share/package-licenses/gst-plugins-bad/065e53e772f604ccf39b435c4bc791d942279064 || :
+cp %{_builddir}/gst-plugins-bad-%{version}/gst-libs/gst/codecparsers/dboolhuff.LICENSE %{buildroot}/usr/share/package-licenses/gst-plugins-bad/4dbe7c1f3a1833a88333a7c282119323e9ef44fa || :
+cp %{_builddir}/gst-plugins-bad-%{version}/gst/dvbsubenc/libimagequant/COPYRIGHT %{buildroot}/usr/share/package-licenses/gst-plugins-bad/5b574b9029338b80cc6df610d503db509d783ec8 || :
 DESTDIR=%{buildroot}-v4 ninja -C builddiravx512 install
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gst-plugins-bad-1.0
