@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.20.5
-Release  : 106
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.5.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.5.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.5.tar.xz.asc
+Version  : 1.22.0
+Release  : 107
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.0.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.0.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.0.tar.xz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause BSD-3-Clause GPL-2.0 LGPL-2.1
@@ -24,7 +24,6 @@ BuildRequires : Vulkan-Headers-dev
 BuildRequires : Vulkan-Loader-dev
 BuildRequires : Vulkan-Tools
 BuildRequires : bluez-dev
-BuildRequires : buildreq-cmake
 BuildRequires : buildreq-meson
 BuildRequires : curl-dev
 BuildRequires : glu-dev
@@ -69,10 +68,15 @@ BuildRequires : pkgconfig(wayland-protocols)
 BuildRequires : sbc-dev
 BuildRequires : valgrind
 BuildRequires : wayland-dev
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 
 %description
-To build this, you'll require the DirectShow base classes. These are supplied
-in the Windows SDK, but under Samples\Multimedia\DirectShow\BaseClasses
+videoparse
+==========
+The videoparse element is used to parse a file containing raw image
+data.
 
 %package bin
 Summary: bin components for the gst-plugins-bad package.
@@ -142,10 +146,10 @@ locales components for the gst-plugins-bad package.
 
 
 %prep
-%setup -q -n gst-plugins-bad-1.20.5
-cd %{_builddir}/gst-plugins-bad-1.20.5
+%setup -q -n gst-plugins-bad-1.22.0
+cd %{_builddir}/gst-plugins-bad-1.22.0
 pushd ..
-cp -a gst-plugins-bad-1.20.5 buildavx512
+cp -a gst-plugins-bad-1.22.0 buildavx512
 popd
 
 %build
@@ -153,15 +157,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1671648409
+export SOURCE_DATE_EPOCH=1674577204
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dopencv=disabled \
 -Dwpe=disabled \
 -Dexamples=disabled  builddir
@@ -200,13 +204,16 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files data
 %defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/CudaGst-1.0.typelib
 /usr/lib64/girepository-1.0/GstBadAudio-1.0.typelib
 /usr/lib64/girepository-1.0/GstCodecs-1.0.typelib
+/usr/lib64/girepository-1.0/GstCuda-1.0.typelib
 /usr/lib64/girepository-1.0/GstInsertBin-1.0.typelib
 /usr/lib64/girepository-1.0/GstMpegts-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlay-1.0.typelib
 /usr/lib64/girepository-1.0/GstPlayer-1.0.typelib
 /usr/lib64/girepository-1.0/GstTranscoder-1.0.typelib
+/usr/lib64/girepository-1.0/GstVa-1.0.typelib
 /usr/lib64/girepository-1.0/GstWebRTC-1.0.typelib
 /usr/share/gir-1.0/*.gir
 /usr/share/gstreamer-1.0/encoding-profiles/device/dvd.gep
@@ -244,6 +251,14 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8parser.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstvp8rangedecoder.h
 /usr/include/gstreamer-1.0/gst/codecparsers/gstvp9parser.h
+/usr/include/gstreamer-1.0/gst/cuda/cuda-gst.h
+/usr/include/gstreamer-1.0/gst/cuda/cuda-prelude.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudabufferpool.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudacontext.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudaloader.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudamemory.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudanvrtc.h
+/usr/include/gstreamer-1.0/gst/cuda/gstcudautils.h
 /usr/include/gstreamer-1.0/gst/insertbin/gstinsertbin.h
 /usr/include/gstreamer-1.0/gst/interfaces/photography-enumtypes.h
 /usr/include/gstreamer-1.0/gst/interfaces/photography-prelude.h
@@ -291,9 +306,31 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader.h
 /usr/include/gstreamer-1.0/gst/uridownloader/gsturidownloader_debug.h
 /usr/include/gstreamer-1.0/gst/uridownloader/uridownloader-prelude.h
+/usr/include/gstreamer-1.0/gst/va/gstva.h
+/usr/include/gstreamer-1.0/gst/va/gstvaallocator.h
+/usr/include/gstreamer-1.0/gst/va/gstvadisplay.h
+/usr/include/gstreamer-1.0/gst/va/gstvadisplay_drm.h
+/usr/include/gstreamer-1.0/gst/va/gstvadisplay_wrapped.h
+/usr/include/gstreamer-1.0/gst/va/gstvapool.h
+/usr/include/gstreamer-1.0/gst/va/gstvautils.h
+/usr/include/gstreamer-1.0/gst/va/va-enumtypes.h
+/usr/include/gstreamer-1.0/gst/va/va-prelude.h
+/usr/include/gstreamer-1.0/gst/va/va_fwd.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwl_fwd.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlbuffer.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlcontext.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwldisplay.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwllinuxdmabuf.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlshmallocator.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlvideobufferpool.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlvideoformat.h
+/usr/include/gstreamer-1.0/gst/wayland/gstwlwindow.h
+/usr/include/gstreamer-1.0/gst/wayland/wayland-prelude.h
 /usr/include/gstreamer-1.0/gst/wayland/wayland.h
 /usr/include/gstreamer-1.0/gst/webrtc/datachannel.h
 /usr/include/gstreamer-1.0/gst/webrtc/dtlstransport.h
+/usr/include/gstreamer-1.0/gst/webrtc/ice.h
+/usr/include/gstreamer-1.0/gst/webrtc/icestream.h
 /usr/include/gstreamer-1.0/gst/webrtc/icetransport.h
 /usr/include/gstreamer-1.0/gst/webrtc/rtcsessiondescription.h
 /usr/include/gstreamer-1.0/gst/webrtc/rtpreceiver.h
@@ -308,6 +345,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstbasecamerabinsrc-1.0.so
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecparsers-1.0.so
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecs-1.0.so
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcuda-1.0.so
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstinsertbin-1.0.so
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstisoff-1.0.so
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstmpegts-1.0.so
@@ -325,6 +363,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libgstbasecamerabinsrc-1.0.so
 /usr/lib64/libgstcodecparsers-1.0.so
 /usr/lib64/libgstcodecs-1.0.so
+/usr/lib64/libgstcuda-1.0.so
 /usr/lib64/libgstinsertbin-1.0.so
 /usr/lib64/libgstisoff-1.0.so
 /usr/lib64/libgstmpegts-1.0.so
@@ -339,6 +378,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libgstwebrtc-1.0.so
 /usr/lib64/pkgconfig/gstreamer-bad-audio-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-codecparsers-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-cuda-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-insertbin-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-mpegts-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-photography-1.0.pc
@@ -347,6 +387,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/pkgconfig/gstreamer-plugins-bad-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-sctp-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-transcoder-1.0.pc
+/usr/lib64/pkgconfig/gstreamer-va-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-wayland-1.0.pc
 /usr/lib64/pkgconfig/gstreamer-webrtc-1.0.pc
 
@@ -357,38 +398,40 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstadaptivedemux-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstadaptivedemux-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstadaptivedemux-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstbadaudio-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstbadaudio-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstbadaudio-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstbasecamerabinsrc-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstbasecamerabinsrc-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecparsers-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecparsers-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecparsers-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecs-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecs-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcodecs-1.0.so.0.2200.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcuda-1.0.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstcuda-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstinsertbin-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstinsertbin-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstinsertbin-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstisoff-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstisoff-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstisoff-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstmpegts-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstmpegts-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstmpegts-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstphotography-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstphotography-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstphotography-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstplay-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstplay-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstplay-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstplayer-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstplayer-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstplayer-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstsctp-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstsctp-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstsctp-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgsttranscoder-1.0.so.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgsturidownloader-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgsturidownloader-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgsturidownloader-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstva-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstva-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstva-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstwayland-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstwayland-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstwayland-1.0.so.0.2200.0
 /usr/lib64/glibc-hwcaps/x86-64-v4/libgstwebrtc-1.0.so.0
-/usr/lib64/glibc-hwcaps/x86-64-v4/libgstwebrtc-1.0.so.0.2005.0
+/usr/lib64/glibc-hwcaps/x86-64-v4/libgstwebrtc-1.0.so.0.2200.0
 /usr/lib64/gstreamer-1.0/libgstaccurip.so
 /usr/lib64/gstreamer-1.0/libgstadpcmdec.so
 /usr/lib64/gstreamer-1.0/libgstadpcmenc.so
@@ -408,6 +451,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstcamerabin.so
 /usr/lib64/gstreamer-1.0/libgstclosedcaption.so
 /usr/lib64/gstreamer-1.0/libgstcodecalpha.so
+/usr/lib64/gstreamer-1.0/libgstcodectimestamper.so
 /usr/lib64/gstreamer-1.0/libgstcoloreffects.so
 /usr/lib64/gstreamer-1.0/libgstcolormanagement.so
 /usr/lib64/gstreamer-1.0/libgstcurl.so
@@ -428,6 +472,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstgaudieffects.so
 /usr/lib64/gstreamer-1.0/libgstgdp.so
 /usr/lib64/gstreamer-1.0/libgstgeometrictransform.so
+/usr/lib64/gstreamer-1.0/libgstgtkwayland.so
 /usr/lib64/gstreamer-1.0/libgsthls.so
 /usr/lib64/gstreamer-1.0/libgstid3tag.so
 /usr/lib64/gstreamer-1.0/libgstinter.so
@@ -455,6 +500,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstpnm.so
 /usr/lib64/gstreamer-1.0/libgstproxy.so
 /usr/lib64/gstreamer-1.0/libgstqroverlay.so
+/usr/lib64/gstreamer-1.0/libgstqsv.so
 /usr/lib64/gstreamer-1.0/libgstremovesilence.so
 /usr/lib64/gstreamer-1.0/libgstrfbsrc.so
 /usr/lib64/gstreamer-1.0/libgstrist.so
@@ -490,38 +536,40 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstwebp.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.2005.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.2200.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.2005.0
+/usr/lib64/libgstbadaudio-1.0.so.0.2200.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2005.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2200.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.2005.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.2200.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.2005.0
+/usr/lib64/libgstcodecs-1.0.so.0.2200.0
+/usr/lib64/libgstcuda-1.0.so.0
+/usr/lib64/libgstcuda-1.0.so.0.2200.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.2005.0
+/usr/lib64/libgstinsertbin-1.0.so.0.2200.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.2005.0
+/usr/lib64/libgstisoff-1.0.so.0.2200.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.2005.0
+/usr/lib64/libgstmpegts-1.0.so.0.2200.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.2005.0
+/usr/lib64/libgstphotography-1.0.so.0.2200.0
 /usr/lib64/libgstplay-1.0.so.0
-/usr/lib64/libgstplay-1.0.so.0.2005.0
+/usr/lib64/libgstplay-1.0.so.0.2200.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.2005.0
+/usr/lib64/libgstplayer-1.0.so.0.2200.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.2005.0
+/usr/lib64/libgstsctp-1.0.so.0.2200.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.2005.0
+/usr/lib64/libgsturidownloader-1.0.so.0.2200.0
 /usr/lib64/libgstva-1.0.so.0
-/usr/lib64/libgstva-1.0.so.0.2005.0
+/usr/lib64/libgstva-1.0.so.0.2200.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.2005.0
+/usr/lib64/libgstwayland-1.0.so.0.2200.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.2005.0
+/usr/lib64/libgstwebrtc-1.0.so.0.2200.0
 /usr/share/clear/optimized-elf/other*
 
 %files license
