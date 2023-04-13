@@ -229,6 +229,7 @@ libgstcodecs-1.0.so.0:gst_h264_dpb_get_interlaced
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_long_ref_by_long_term_pic_num
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_lowest_frame_num_short_ref
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_max_num_frames
+libgstcodecs-1.0.so.0:gst_h264_dpb_get_max_num_reorder_frames
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_picture
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_pictures_all
 libgstcodecs-1.0.so.0:gst_h264_dpb_get_pictures_long_term_ref
@@ -1141,3 +1142,7 @@ libgstwebrtc-1.0.so.0:gst_webrtc_session_description_get_type
 libgstwebrtc-1.0.so.0:gst_webrtc_session_description_new
 libgstwebrtc-1.0.so.0:gst_webrtc_signaling_state_get_type
 libgstwebrtc-1.0.so.0:gst_webrtc_stats_type_get_type
+libgstwebrtcnice-1.0.so.0:gst_webrtc_nice_get_type
+libgstwebrtcnice-1.0.so.0:gst_webrtc_nice_new
+libgstwebrtcnice-1.0.so.0:gst_webrtc_nice_stream_get_type
+libgstwebrtcnice-1.0.so.0:gst_webrtc_nice_transport_get_type
