@@ -45,7 +45,7 @@ libqrencode.so.4
 librsvg-2.so.2
 libsbc.so.1
 libsndfile.so.1
-libsrtp.so.1
+libsrtp2.so.1
 libssl.so.3
 libstdc++.so.6
 libusb-1.0.so.0

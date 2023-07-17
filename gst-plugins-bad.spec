@@ -7,7 +7,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.22.4
-Release  : 112
+Release  : 113
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.4.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.4.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.4.tar.xz.asc
@@ -150,7 +150,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1687305050
+export SOURCE_DATE_EPOCH=1689621452
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
