@@ -114,3 +114,8 @@ zbar
 zvbi-0.2
 zvbi-0.2)
 zxing
+lc3
+gstreamer-codecs-1.0
+webrtc-audio-processing-1
+libajantv2
+svtav1enc

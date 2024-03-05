@@ -23,3 +23,5 @@ opus-dev
 sbc-dev
 valgrind
 wayland-dev
+SVT-AV1-dev
+SVT-HEVC-dev

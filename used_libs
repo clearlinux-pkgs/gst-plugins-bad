@@ -1,6 +1,9 @@
+ld-linux-x86-64.so.2
 libIex-3_1.so.30
 libImath-3_1.so.29
 libOpenEXR-3_1.so.30
+libSvtAv1Enc.so.1
+libSvtHevcEnc.so.1
 libX11.so.6
 libavtp.so.0
 libbz2.so.1.0
@@ -53,4 +56,5 @@ libva-drm.so.2
 libva.so.2
 libwayland-client.so.0
 libwebp.so.7
+libwebpmux.so.3
 libxml2.so.2
