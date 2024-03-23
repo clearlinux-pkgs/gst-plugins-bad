@@ -1,4 +1,4 @@
-1.24.0
+1.24.1
 curl-dev
 gstreamer-dev
 json-glib-dev
@@ -9,12 +9,9 @@ libsoup-dev
 libwebp-dev
 pkgconfig(avtp)
 pkgconfig(gstreamer-1.0)
-pkgconfig(gstreamer-codecs-1.0)
 pkgconfig(gstreamer-pbutils-1.0)
 pkgconfig(json-glib-1.0)
-pkgconfig(lc3)
 pkgconfig(lcms2)
-pkgconfig(libajantv2)
 pkgconfig(libcurl)
 pkgconfig(libexif)
 pkgconfig(libqrencode)
@@ -26,6 +23,5 @@ pkgconfig(nettle)
 pkgconfig(nice)
 pkgconfig(openal)
 pkgconfig(sndfile)
-pkgconfig(svtav1enc)
 pkgconfig(wayland-protocols)
-pkgconfig(webrtc-audio-processing-1)
+pypi(packaging)
