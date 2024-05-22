@@ -2,7 +2,7 @@ ld-linux-x86-64.so.2
 libIex-3_1.so.30
 libImath-3_1.so.29
 libOpenEXR-3_1.so.30
-libSvtAv1Enc.so.1
+libSvtAv1Enc.so.2
 libSvtHevcEnc.so.1
 libX11.so.6
 libavtp.so.0
