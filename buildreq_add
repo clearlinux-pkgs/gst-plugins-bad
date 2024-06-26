@@ -14,7 +14,6 @@ libsrtp-dev
 libssh2-dev
 libusb-dev
 libva-dev
-mediasdk-dev
 mesa-dev
 mpc-dev
 mpg123-dev
