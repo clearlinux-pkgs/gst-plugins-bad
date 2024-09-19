@@ -1,4 +1,4 @@
-1.24.7
+1.24.8
 curl-dev
 gstreamer-dev
 json-glib-dev
@@ -26,4 +26,3 @@ pkgconfig(openal)
 pkgconfig(sndfile)
 pkgconfig(vpl)
 pkgconfig(wayland-protocols)
-pypi(packaging)
