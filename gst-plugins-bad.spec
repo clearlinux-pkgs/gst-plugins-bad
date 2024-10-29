@@ -9,7 +9,7 @@
 #
 Name     : gst-plugins-bad
 Version  : 1.24.8
-Release  : 134
+Release  : 135
 URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.8.tar.xz
 Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.8.tar.xz
 Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.8.tar.xz.asc
