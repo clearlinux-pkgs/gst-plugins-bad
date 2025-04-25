@@ -119,3 +119,7 @@ gstreamer-codecs-1.0
 webrtc-audio-processing-1
 libajantv2
 svtav1enc
+lcevc_dec
+lcevc_eil
+svtjpegxs
+webrtc-audio-processing-2

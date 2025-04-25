@@ -54,7 +54,10 @@ libstdc++.so.6
 libusb-1.0.so.0
 libva-drm.so.2
 libva.so.2
+libvulkan.so.1
 libwayland-client.so.0
 libwebp.so.7
 libwebpmux.so.3
-libxml2.so.2
+libxkbcommon-x11.so.0
+libxkbcommon.so.0
+libxml2.so.16

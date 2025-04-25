@@ -1,11 +1,10 @@
-1.24.12
+1.26.1
 curl-dev
 gstreamer-dev
 json-glib-dev
 lcms2-dev
 librsvg-dev
 libsndfile-dev
-libsoup-dev
 libwebp-dev
 pkgconfig(avtp)
 pkgconfig(gstreamer-1.0)
@@ -17,12 +16,13 @@ pkgconfig(libexif)
 pkgconfig(libmfx)
 pkgconfig(libqrencode)
 pkgconfig(librsvg-2.0)
-pkgconfig(libsoup-2.4)
+pkgconfig(libsoup-3.0)
 pkgconfig(libwebp)
 pkgconfig(libwebpmux)
 pkgconfig(nettle)
 pkgconfig(nice)
 pkgconfig(openal)
 pkgconfig(sndfile)
+pkgconfig(valgrind)
 pkgconfig(vpl)
 pkgconfig(wayland-protocols)
