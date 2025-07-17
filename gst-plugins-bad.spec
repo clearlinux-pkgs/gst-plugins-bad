@@ -8,11 +8,11 @@
 # Source0 file verified with key 0x5D2EEE6F6F349D7C (tim@centricular.com)
 #
 Name     : gst-plugins-bad
-Version  : 1.26.3
-Release  : 143
-URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.3.tar.xz
-Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.3.tar.xz
-Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.3.tar.xz.asc
+Version  : 1.26.4
+Release  : 144
+URL      : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.4.tar.xz
+Source0  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.4.tar.xz
+Source1  : https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.4.tar.xz.asc
 Source2  : 5D2EEE6F6F349D7C.pkey
 Summary  : No detailed summary available
 Group    : Development/Tools
@@ -149,13 +149,13 @@ chmod 700 .gnupg
 gpg --homedir .gnupg --import %{SOURCE2}
 gpg --homedir .gnupg --status-fd 1 --verify %{SOURCE1} %{SOURCE0} > gpg.status
 grep -E '^\[GNUPG:\] (GOODSIG|EXPKEYSIG) 5D2EEE6F6F349D7C' gpg.status
-%setup -q -n gst-plugins-bad-1.26.3
-cd %{_builddir}/gst-plugins-bad-1.26.3
+%setup -q -n gst-plugins-bad-1.26.4
+cd %{_builddir}/gst-plugins-bad-1.26.4
 pushd ..
-cp -a gst-plugins-bad-1.26.3 buildavx2
+cp -a gst-plugins-bad-1.26.4 buildavx2
 popd
 pushd ..
-cp -a gst-plugins-bad-1.26.3 buildavx512
+cp -a gst-plugins-bad-1.26.4 buildavx512
 popd
 
 %build
@@ -163,7 +163,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1751043060
+export SOURCE_DATE_EPOCH=1752764844
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -617,29 +617,29 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /V3/usr/lib64/gstreamer-1.0/libgstwebp.so
 /V3/usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /V3/usr/lib64/gstreamer-1.0/libgsty4mdec.so
-/V3/usr/lib64/libgstadaptivedemux-1.0.so.0.2603.0
-/V3/usr/lib64/libgstanalytics-1.0.so.0.2603.0
-/V3/usr/lib64/libgstbadaudio-1.0.so.0.2603.0
-/V3/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2603.0
-/V3/usr/lib64/libgstcodecparsers-1.0.so.0.2603.0
-/V3/usr/lib64/libgstcodecs-1.0.so.0.2603.0
-/V3/usr/lib64/libgstcuda-1.0.so.0.2603.0
-/V3/usr/lib64/libgstdxva-1.0.so.0.2603.0
-/V3/usr/lib64/libgstinsertbin-1.0.so.0.2603.0
-/V3/usr/lib64/libgstisoff-1.0.so.0.2603.0
-/V3/usr/lib64/libgstmpegts-1.0.so.0.2603.0
-/V3/usr/lib64/libgstmse-1.0.so.0.2603.0
-/V3/usr/lib64/libgstphotography-1.0.so.0.2603.0
-/V3/usr/lib64/libgstplay-1.0.so.0.2603.0
-/V3/usr/lib64/libgstplayer-1.0.so.0.2603.0
-/V3/usr/lib64/libgstsctp-1.0.so.0.2603.0
+/V3/usr/lib64/libgstadaptivedemux-1.0.so.0.2604.0
+/V3/usr/lib64/libgstanalytics-1.0.so.0.2604.0
+/V3/usr/lib64/libgstbadaudio-1.0.so.0.2604.0
+/V3/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2604.0
+/V3/usr/lib64/libgstcodecparsers-1.0.so.0.2604.0
+/V3/usr/lib64/libgstcodecs-1.0.so.0.2604.0
+/V3/usr/lib64/libgstcuda-1.0.so.0.2604.0
+/V3/usr/lib64/libgstdxva-1.0.so.0.2604.0
+/V3/usr/lib64/libgstinsertbin-1.0.so.0.2604.0
+/V3/usr/lib64/libgstisoff-1.0.so.0.2604.0
+/V3/usr/lib64/libgstmpegts-1.0.so.0.2604.0
+/V3/usr/lib64/libgstmse-1.0.so.0.2604.0
+/V3/usr/lib64/libgstphotography-1.0.so.0.2604.0
+/V3/usr/lib64/libgstplay-1.0.so.0.2604.0
+/V3/usr/lib64/libgstplayer-1.0.so.0.2604.0
+/V3/usr/lib64/libgstsctp-1.0.so.0.2604.0
 /V3/usr/lib64/libgsttranscoder-1.0.so.0
-/V3/usr/lib64/libgsturidownloader-1.0.so.0.2603.0
-/V3/usr/lib64/libgstva-1.0.so.0.2603.0
-/V3/usr/lib64/libgstvulkan-1.0.so.0.2603.0
-/V3/usr/lib64/libgstwayland-1.0.so.0.2603.0
-/V3/usr/lib64/libgstwebrtc-1.0.so.0.2603.0
-/V3/usr/lib64/libgstwebrtcnice-1.0.so.0.2603.0
+/V3/usr/lib64/libgsturidownloader-1.0.so.0.2604.0
+/V3/usr/lib64/libgstva-1.0.so.0.2604.0
+/V3/usr/lib64/libgstvulkan-1.0.so.0.2604.0
+/V3/usr/lib64/libgstwayland-1.0.so.0.2604.0
+/V3/usr/lib64/libgstwebrtc-1.0.so.0.2604.0
+/V3/usr/lib64/libgstwebrtcnice-1.0.so.0.2604.0
 /V4/usr/lib64/gstreamer-1.0/libgstaccurip.so
 /V4/usr/lib64/gstreamer-1.0/libgstadpcmdec.so
 /V4/usr/lib64/gstreamer-1.0/libgstadpcmenc.so
@@ -753,29 +753,29 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /V4/usr/lib64/gstreamer-1.0/libgstwebp.so
 /V4/usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /V4/usr/lib64/gstreamer-1.0/libgsty4mdec.so
-/V4/usr/lib64/libgstadaptivedemux-1.0.so.0.2603.0
-/V4/usr/lib64/libgstanalytics-1.0.so.0.2603.0
-/V4/usr/lib64/libgstbadaudio-1.0.so.0.2603.0
-/V4/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2603.0
-/V4/usr/lib64/libgstcodecparsers-1.0.so.0.2603.0
-/V4/usr/lib64/libgstcodecs-1.0.so.0.2603.0
-/V4/usr/lib64/libgstcuda-1.0.so.0.2603.0
-/V4/usr/lib64/libgstdxva-1.0.so.0.2603.0
-/V4/usr/lib64/libgstinsertbin-1.0.so.0.2603.0
-/V4/usr/lib64/libgstisoff-1.0.so.0.2603.0
-/V4/usr/lib64/libgstmpegts-1.0.so.0.2603.0
-/V4/usr/lib64/libgstmse-1.0.so.0.2603.0
-/V4/usr/lib64/libgstphotography-1.0.so.0.2603.0
-/V4/usr/lib64/libgstplay-1.0.so.0.2603.0
-/V4/usr/lib64/libgstplayer-1.0.so.0.2603.0
-/V4/usr/lib64/libgstsctp-1.0.so.0.2603.0
+/V4/usr/lib64/libgstadaptivedemux-1.0.so.0.2604.0
+/V4/usr/lib64/libgstanalytics-1.0.so.0.2604.0
+/V4/usr/lib64/libgstbadaudio-1.0.so.0.2604.0
+/V4/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2604.0
+/V4/usr/lib64/libgstcodecparsers-1.0.so.0.2604.0
+/V4/usr/lib64/libgstcodecs-1.0.so.0.2604.0
+/V4/usr/lib64/libgstcuda-1.0.so.0.2604.0
+/V4/usr/lib64/libgstdxva-1.0.so.0.2604.0
+/V4/usr/lib64/libgstinsertbin-1.0.so.0.2604.0
+/V4/usr/lib64/libgstisoff-1.0.so.0.2604.0
+/V4/usr/lib64/libgstmpegts-1.0.so.0.2604.0
+/V4/usr/lib64/libgstmse-1.0.so.0.2604.0
+/V4/usr/lib64/libgstphotography-1.0.so.0.2604.0
+/V4/usr/lib64/libgstplay-1.0.so.0.2604.0
+/V4/usr/lib64/libgstplayer-1.0.so.0.2604.0
+/V4/usr/lib64/libgstsctp-1.0.so.0.2604.0
 /V4/usr/lib64/libgsttranscoder-1.0.so.0
-/V4/usr/lib64/libgsturidownloader-1.0.so.0.2603.0
-/V4/usr/lib64/libgstva-1.0.so.0.2603.0
-/V4/usr/lib64/libgstvulkan-1.0.so.0.2603.0
-/V4/usr/lib64/libgstwayland-1.0.so.0.2603.0
-/V4/usr/lib64/libgstwebrtc-1.0.so.0.2603.0
-/V4/usr/lib64/libgstwebrtcnice-1.0.so.0.2603.0
+/V4/usr/lib64/libgsturidownloader-1.0.so.0.2604.0
+/V4/usr/lib64/libgstva-1.0.so.0.2604.0
+/V4/usr/lib64/libgstvulkan-1.0.so.0.2604.0
+/V4/usr/lib64/libgstwayland-1.0.so.0.2604.0
+/V4/usr/lib64/libgstwebrtc-1.0.so.0.2604.0
+/V4/usr/lib64/libgstwebrtcnice-1.0.so.0.2604.0
 /usr/lib64/gstreamer-1.0/libgstaccurip.so
 /usr/lib64/gstreamer-1.0/libgstadpcmdec.so
 /usr/lib64/gstreamer-1.0/libgstadpcmenc.so
@@ -890,50 +890,50 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/gstreamer-1.0/libgstwebrtc.so
 /usr/lib64/gstreamer-1.0/libgsty4mdec.so
 /usr/lib64/libgstadaptivedemux-1.0.so.0
-/usr/lib64/libgstadaptivedemux-1.0.so.0.2603.0
+/usr/lib64/libgstadaptivedemux-1.0.so.0.2604.0
 /usr/lib64/libgstanalytics-1.0.so.0
-/usr/lib64/libgstanalytics-1.0.so.0.2603.0
+/usr/lib64/libgstanalytics-1.0.so.0.2604.0
 /usr/lib64/libgstbadaudio-1.0.so.0
-/usr/lib64/libgstbadaudio-1.0.so.0.2603.0
+/usr/lib64/libgstbadaudio-1.0.so.0.2604.0
 /usr/lib64/libgstbasecamerabinsrc-1.0.so.0
-/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2603.0
+/usr/lib64/libgstbasecamerabinsrc-1.0.so.0.2604.0
 /usr/lib64/libgstcodecparsers-1.0.so.0
-/usr/lib64/libgstcodecparsers-1.0.so.0.2603.0
+/usr/lib64/libgstcodecparsers-1.0.so.0.2604.0
 /usr/lib64/libgstcodecs-1.0.so.0
-/usr/lib64/libgstcodecs-1.0.so.0.2603.0
+/usr/lib64/libgstcodecs-1.0.so.0.2604.0
 /usr/lib64/libgstcuda-1.0.so.0
-/usr/lib64/libgstcuda-1.0.so.0.2603.0
+/usr/lib64/libgstcuda-1.0.so.0.2604.0
 /usr/lib64/libgstdxva-1.0.so.0
-/usr/lib64/libgstdxva-1.0.so.0.2603.0
+/usr/lib64/libgstdxva-1.0.so.0.2604.0
 /usr/lib64/libgstinsertbin-1.0.so.0
-/usr/lib64/libgstinsertbin-1.0.so.0.2603.0
+/usr/lib64/libgstinsertbin-1.0.so.0.2604.0
 /usr/lib64/libgstisoff-1.0.so.0
-/usr/lib64/libgstisoff-1.0.so.0.2603.0
+/usr/lib64/libgstisoff-1.0.so.0.2604.0
 /usr/lib64/libgstmpegts-1.0.so.0
-/usr/lib64/libgstmpegts-1.0.so.0.2603.0
+/usr/lib64/libgstmpegts-1.0.so.0.2604.0
 /usr/lib64/libgstmse-1.0.so.0
-/usr/lib64/libgstmse-1.0.so.0.2603.0
+/usr/lib64/libgstmse-1.0.so.0.2604.0
 /usr/lib64/libgstphotography-1.0.so.0
-/usr/lib64/libgstphotography-1.0.so.0.2603.0
+/usr/lib64/libgstphotography-1.0.so.0.2604.0
 /usr/lib64/libgstplay-1.0.so.0
-/usr/lib64/libgstplay-1.0.so.0.2603.0
+/usr/lib64/libgstplay-1.0.so.0.2604.0
 /usr/lib64/libgstplayer-1.0.so.0
-/usr/lib64/libgstplayer-1.0.so.0.2603.0
+/usr/lib64/libgstplayer-1.0.so.0.2604.0
 /usr/lib64/libgstsctp-1.0.so.0
-/usr/lib64/libgstsctp-1.0.so.0.2603.0
+/usr/lib64/libgstsctp-1.0.so.0.2604.0
 /usr/lib64/libgsttranscoder-1.0.so.0
 /usr/lib64/libgsturidownloader-1.0.so.0
-/usr/lib64/libgsturidownloader-1.0.so.0.2603.0
+/usr/lib64/libgsturidownloader-1.0.so.0.2604.0
 /usr/lib64/libgstva-1.0.so.0
-/usr/lib64/libgstva-1.0.so.0.2603.0
+/usr/lib64/libgstva-1.0.so.0.2604.0
 /usr/lib64/libgstvulkan-1.0.so.0
-/usr/lib64/libgstvulkan-1.0.so.0.2603.0
+/usr/lib64/libgstvulkan-1.0.so.0.2604.0
 /usr/lib64/libgstwayland-1.0.so.0
-/usr/lib64/libgstwayland-1.0.so.0.2603.0
+/usr/lib64/libgstwayland-1.0.so.0.2604.0
 /usr/lib64/libgstwebrtc-1.0.so.0
-/usr/lib64/libgstwebrtc-1.0.so.0.2603.0
+/usr/lib64/libgstwebrtc-1.0.so.0.2604.0
 /usr/lib64/libgstwebrtcnice-1.0.so.0
-/usr/lib64/libgstwebrtcnice-1.0.so.0.2603.0
+/usr/lib64/libgstwebrtcnice-1.0.so.0.2604.0
 
 %files license
 %defattr(0644,root,root,0755)
